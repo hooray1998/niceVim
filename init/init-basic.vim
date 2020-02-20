@@ -15,13 +15,13 @@
 "----------------------------------------------------------------------
 
 set nu
-set go=             " 不要图形按钮  
-set showcmd         " 输入的命令显示出来，看的清楚些  
-set novisualbell    " 不要闪烁(不明白)  
-set laststatus=2    " 启动显示状态行(1),总是显示状态行(2)  
+set go=             " 不要图形按钮
+set showcmd         " 输入的命令显示出来，看的清楚些
+set novisualbell    " 不要闪烁(不明白)
+set laststatus=2    " 启动显示状态行(1),总是显示状态行(2)
 
 if has('win32') || has('win64')
-    set guifont=Menlo:h12:cANSI   " 设置字体  
+    set guifont=Menlo:h12:cANSI   " 设置字体
     "设置半透明
     au GUIEnter * call libcallnr("vimtweak.dll", "SetAlpha", 240)
     "设置初始工作路径
@@ -32,7 +32,7 @@ if has('win32') || has('win64')
     set lines=103 columns=179
 endif
 
-"共享剪贴板  
+"共享剪贴板
 set clipboard+=unnamed
 " 在被分割的窗口间显示空白，便于阅读
 "set fillchars=vert:\ ,stl:\ ,stlnc:\
@@ -90,14 +90,14 @@ set incsearch
 " 编码设置
 "----------------------------------------------------------------------
 if has('multi_byte')
-	" 内部工作编码
-	set encoding=utf-8
+    " 内部工作编码
+    set encoding=utf-8
 
-	" 文件默认编码
-	set fileencoding=utf-8
+    " 文件默认编码
+    set fileencoding=utf-8
 
-	" 打开文件时自动尝试下面顺序的编码
-	set fileencodings=ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1
+    " 打开文件时自动尝试下面顺序的编码
+    set fileencodings=ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1
 endif
 
 
@@ -105,16 +105,16 @@ endif
 " 允许 Vim 自带脚本根据文件类型自动设置缩进等
 "----------------------------------------------------------------------
 if has('autocmd')
-	filetype plugin indent on
+    filetype plugin indent on
 endif
 
 
 "----------------------------------------------------------------------
 " 语法高亮设置
 "----------------------------------------------------------------------
-if has('syntax')  
-	syntax enable 
-	syntax on 
+if has('syntax')
+    syntax enable
+    syntax on
 endif
 
 
@@ -162,14 +162,14 @@ set ffs=unix,dos,mac
 " 设置代码折叠
 "----------------------------------------------------------------------
 if has('folding')
-	" 允许代码折叠
-	set foldenable
+    " 允许代码折叠
+    set foldenable
 
-	" 代码折叠默认使用缩进
-	set fdm=indent
+    " 代码折叠默认使用缩进
+    set fdm=indent
 
-	" 默认打开所有缩进
-	set foldlevel=99
+    " 默认打开所有缩进
+    set foldlevel=99
 endif
 
 
@@ -197,3 +197,11 @@ set wildignore+=*.linux2,*.win32,*.darwin,*.freebsd,*.linux,*.android
 
 
 
+set wrap "长行折叠"
+set linebreak "行根据breakat打断"
+set breakat-=_ "打断符号, 去掉_"
+set showbreak=->
+set breakindent "打算后保持缩进"
+"noremap <silent> <expr> j (v:count == 0? 'gj':'j')
+"noremap <silent> <expr> k (v:count == 0? 'gk':'k')
+set shell=/bin/bash

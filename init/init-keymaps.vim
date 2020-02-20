@@ -68,6 +68,7 @@ noremap <silent><leader>9 9gt<cr>
 noremap <silent><leader>0 10gt<cr>
 
 
+
 "----------------------------------------------------------------------
 " ALT+N 切换 tab
 "----------------------------------------------------------------------
@@ -123,8 +124,8 @@ endif
 "----------------------------------------------------------------------
 " 缓存：插件 unimpaired 中定义了 [b, ]b 来切换缓存
 "----------------------------------------------------------------------
-noremap <silent> <leader>bn :bn<cr>
-noremap <silent> <leader>bp :bp<cr>
+noremap <silent> [j :bp<cr>
+noremap <silent> ]j :bn<cr>
 
 
 "----------------------------------------------------------------------
@@ -133,11 +134,6 @@ noremap <silent> <leader>bp :bp<cr>
 "----------------------------------------------------------------------
 
 noremap <silent> <leader>tc :tabnew<cr>
-"noremap <silent> <leader>tq :tabclose<cr>
-"noremap <silent> <leader>tn :tabnext<cr>
-"noremap <silent> <leader>tp :tabprev<cr>
-"noremap <silent> <leader>to :tabonly<cr>
-
 
 " 左移 tab
 function! Tab_MoveLeft()
@@ -171,7 +167,7 @@ noremap <m-l> w
 inoremap <m-h> <c-left>
 inoremap <m-l> <c-right>
 
-" ALT+j/k 逻辑跳转下一行/上一行（按 wrap 逻辑换行进行跳转） 
+" ALT+j/k 逻辑跳转下一行/上一行（按 wrap 逻辑换行进行跳转）
 noremap <m-j> gj
 noremap <m-k> gk
 inoremap <m-j> <c-\><c-o>gj
@@ -180,10 +176,6 @@ inoremap <m-k> <c-\><c-o>gk
 " 命令模式下的相同快捷
 cnoremap <m-h> <c-left>
 cnoremap <m-l> <c-right>
-
-" ALT+y 删除到行末
-noremap <m-y> d$
-inoremap <m-y> <c-\><c-o>d$
 
 
 "----------------------------------------------------------------------
@@ -239,19 +231,19 @@ nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
 nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 
 " F5 运行文件
-nnoremap <silent> <F5> :call ExecuteFile()<cr>
+nnoremap <silent> <leader>r :call ExecuteFile()<cr>
 
 " F7 编译项目
-nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
+"nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
 
-" F8 运行项目
-nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
+"" F8 运行项目
+"nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
 
-" F6 测试项目
-nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
+"" F6 测试项目
+"nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
 
-" 更新 cmake
-nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
+"" 更新 cmake
+"nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
 
 " Windows 下支持直接打开新 cmd 窗口运行
 if has('win32') || has('win64')
@@ -289,7 +281,7 @@ function! ExecuteFile()
     elseif &ft == 'vbs'
         let cmd = 'cscript -nologo "$(VIM_FILEPATH)"'
     elseif &ft == 'sh'
-        let cmd = 'bash "$(VIM_FILEPATH)"'
+        let cmd = 'chmod +x "$(VIM_FILEPATH)" && bash "$(VIM_FILEPATH)"'
     else
         return
     endif
@@ -305,18 +297,6 @@ function! ExecuteFile()
 endfunc
 
 
-
-"----------------------------------------------------------------------
-" F2 在项目目录下 Grep 光标下单词，默认 C/C++/Py/Js ，扩展名自己扩充
-" 支持 rg/grep/findstr ，其他类型可以自己扩充
-" 不是在当前目录 grep，而是会去到当前文件所属的项目目录 project root
-" 下面进行 grep，这样能方便的对相关项目进行搜索
-"----------------------------------------------------------------------
-if executable('rg')
-noremap <silent><F3> :AsyncRun! -cwd=<root> rg -n --no-heading 
-            \ --color never -g *.h -g *.c* -g *.py -g *.java -g *.js -g *.vim 
-            \ <C-R><C-W> "<root>" <cr>
-endif
 
 
 
@@ -343,3 +323,5 @@ nnoremap <C-a> mmggVG"+y`m<CR>
 nnoremap <m-`> :tabnext<cr>
 nnoremap <m-~> :tabprev<cr>
 nnoremap <leader>tn :tabedit %<cr>:bn<cr>:tabpre<cr>
+nnoremap <leader>l :call ClearTrailingAndTab()<CR>:w<CR>
+vnoremap * y/\V<C-R>"<CR>
