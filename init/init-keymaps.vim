@@ -320,8 +320,6 @@ nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 "快捷复制粘贴至系统
 nnoremap <C-a> mmggVG"+y`m<CR>
 
-nnoremap <m-`> :tabnext<cr>
-nnoremap <m-~> :tabprev<cr>
 nnoremap <leader>tn :tabedit %<cr>:bn<cr>:tabpre<cr>
-nnoremap <leader>l :call ClearTrailingAndTab()<CR>:w<CR>
 vnoremap * y/\V<C-R>"<CR>
+nnoremap <F6> :vsplit /tmp/my.todo<CR>

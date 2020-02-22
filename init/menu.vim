@@ -2,7 +2,7 @@
 
 "======================================================================
 "
-" menu.vim - 
+" menu.vim -
 "
 " Created by skywind on 2017/07/06
 " Last Modified: 2017/07/06 16:59:26
@@ -16,194 +16,177 @@
 "----------------------------------------------------------------------
 
 function! menu#FindInProject()
-	let p = vimmake#get_root('%')
-	echohl Type
-	call inputsave()
-	let t = input('find word ('. p.'): ', expand('<cword>'))
-	call inputrestore()
-	echohl None
-	redraw | echo "" | redraw
-	if strlen(t) > 0
-		silent exec "GrepCode! ".fnameescape(t)
-		call asclib#quickfix_title('- searching "'. t. '"')
-	endif
+    let p = vimmake#get_root('%')
+    echohl Type
+    call inputsave()
+    let t = input('find word ('. p.'): ', expand('<cword>'))
+    call inputrestore()
+    echohl None
+    redraw | echo "" | redraw
+    if strlen(t) > 0
+        silent exec "GrepCode! ".fnameescape(t)
+        call asclib#quickfix_title('- searching "'. t. '"')
+    endif
 endfunc
 
 function! menu#CodeCheck()
-	if &ft == 'python'
-		call asclib#lint_pylint('')
-	elseif &ft == 'c' || &ft == 'cpp'
-		call asclib#lint_cppcheck('')
-	else
-		call asclib#errmsg('file type unsupported, only support python/c/cpp')
-	endif
+    if &ft == 'python'
+        call asclib#lint_pylint('')
+    elseif &ft == 'c' || &ft == 'cpp'
+        call asclib#lint_cppcheck('')
+    else
+        call asclib#errmsg('file type unsupported, only support python/c/cpp')
+    endif
 endfunc
 
 function! menu#DelimitSwitch(on)
-	if a:on
-		exec "DelimitMateOn"
-	else
-		exec "DelimitMateOff"
-	endif
+    if a:on
+        exec "DelimitMateOn"
+    else
+        exec "DelimitMateOff"
+    endif
 endfunc
 
 function! menu#TogglePaste()
-	if &paste
-		set nopaste
-	else
-		set paste
-	endif
+    if &paste
+        set nopaste
+    else
+        set paste
+    endif
 endfunc
 
 function! menu#CurrentWord(limit)
-	let text = expand('<cword>')
-	if len(text) < a:limit
-		return text
-	endif
-	return text[:a:limit] . '..'
+    let text = expand('<cword>')
+    if len(text) < a:limit
+        return text
+    endif
+    return text[:a:limit] . '..'
 endfunc
 
 function! menu#CurrentFile(limit)
-	let text = expand('%:t')
-	if len(text) < a:limit
-		return text
-	endif
-	return text[:a:limit] . '..'
+    let text = expand('%:t')
+    if len(text) < a:limit
+        return text
+    endif
+    return text[:a:limit] . '..'
 endfunc
 
 function! menu#DiffSplit()
-	call asclib#ask_diff()
+    call asclib#ask_diff()
 endfunc
 
 function! menu#EditTool()
-	let text = input('Enter tool name: ')
-	redraw | echo '' | redraw
-	if text == ''
-		return
-	endif
-	exec 'EditTool! '.fnameescape(text)
+    let text = input('Enter tool name: ')
+    redraw | echo '' | redraw
+    if text == ''
+        return
+    endif
+    exec 'EditTool! '.fnameescape(text)
 endfunc
 
 function! menu#WinOpen(what)
-	let root = expand('%:p:h')
-	let cd = haslocaldir()? 'lcd ' : 'cd '
-	let cwd = getcwd()
-	exec cd . root
-	if a:what == 'cmd'
-		exec "silent !start cmd.exe"
-	else
-		exec "silent !start /b cmd.exe /C start ."
-	endif
-	exec cd . cwd
+    let root = expand('%:p:h')
+    let cd = haslocaldir()? 'lcd ' : 'cd '
+    let cwd = getcwd()
+    exec cd . root
+    if a:what == 'cmd'
+        exec "silent !start cmd.exe"
+    else
+        exec "silent !start /b cmd.exe /C start ."
+    endif
+    exec cd . cwd
 endfunc
 
 function! menu#Escope(what)
-	let p = expand('%')
-	let t = expand('<cword>')
-	let m = {}
-	let m["s"] = "string symbol"
-	let m['g'] = 'definition'
-	let m['d'] = 'functions called by this'
-	let m['c'] = 'functions calling this'
-	let m['t'] = 'string'
-	let m['e'] = 'egrep pattern'
-	let m['f'] = 'file'
-	let m['i'] = 'files #including this file'
-	let m['a'] = 'places where this symbol is assigned'
-	if a:what == 'f' || a:what == 'i'
-		let t = expand('<cfile>')
-	endif
-	echohl Type
-	call inputsave()
-	let t = input('find '.m[a:what].' of ('. p.'): ', t)
-	call inputrestore()
-	echohl None
-	redraw | echo "" | redraw
-	if t == ''
-		return 0
-	endif
-	exec 'GscopeFind '. a:what. ' ' . fnameescape(t)
+    let p = expand('%')
+    let t = expand('<cword>')
+    let m = {}
+    let m["s"] = "string symbol"
+    let m['g'] = 'definition'
+    let m['d'] = 'functions called by this'
+    let m['c'] = 'functions calling this'
+    let m['t'] = 'string'
+    let m['e'] = 'egrep pattern'
+    let m['f'] = 'file'
+    let m['i'] = 'files #including this file'
+    let m['a'] = 'places where this symbol is assigned'
+    if a:what == 'f' || a:what == 'i'
+        let t = expand('<cfile>')
+    endif
+    echohl Type
+    call inputsave()
+    let t = input('find '.m[a:what].' of ('. p.'): ', t)
+    call inputrestore()
+    echohl None
+    redraw | echo "" | redraw
+    if t == ''
+        return 0
+    endif
+    exec 'GscopeFind '. a:what. ' ' . fnameescape(t)
 endfunc
 
 
 function! menu#WinHelp(help)
-	let t = expand('<cword>')
-	echohl Type
-	call inputsave()
-	let t = input('Search help of ('. fnamemodify(a:help, ':t').'): ', t)
-	call inputrestore()
-	echohl None
-	redraw | echo "" | redraw
-	if t == ''
-		return 0
-	endif
-	let extname = tolower(fnamemodify(a:help, ':e'))
-	if extname == 'hlp'
-		call asclib#open_win32_help(a:help, t)
-	elseif extname == 'chm'
-		call asclib#open_win32_chm(a:help, t)
-	else
-		echo "unknow filetype"
-	endif
+    let t = expand('<cword>')
+    echohl Type
+    call inputsave()
+    let t = input('Search help of ('. fnamemodify(a:help, ':t').'): ', t)
+    call inputrestore()
+    echohl None
+    redraw | echo "" | redraw
+    if t == ''
+        return 0
+    endif
+    let extname = tolower(fnamemodify(a:help, ':e'))
+    if extname == 'hlp'
+        call asclib#open_win32_help(a:help, t)
+    elseif extname == 'chm'
+        call asclib#open_win32_chm(a:help, t)
+    else
+        echo "unknow filetype"
+    endif
 endfunc
 
 function! menu#DashHelp()
-	let t = expand('<cword>')
-	echohl Type
-	call inputsave()
-	let t = input('Search help of ('. &ft .'): ', t)
-	call inputrestore()
-	echohl None
-	redraw | echo "" | redraw
-	if t == ''
-		return 0
-	endif
-	call asclib#utils#dash_ft(&ft, t)
+    let t = expand('<cword>')
+    echohl Type
+    call inputsave()
+    let t = input('Search help of ('. &ft .'): ', t)
+    call inputrestore()
+    echohl None
+    redraw | echo "" | redraw
+    if t == ''
+        return 0
+    endif
+    call asclib#utils#dash_ft(&ft, t)
 endfunc
 
 
 function! menu#ToolHelp()
-	let s:name = g:vimmake_path . '/readme.txt'
-	exec 'FileSwitch vs '. fnameescape(s:name)
+    let s:name = g:vimmake_path . '/readme.txt'
+    exec 'FileSwitch vs '. fnameescape(s:name)
 endfunc
 
-function! menu#EmacsGdb()
-	if has('win32') || has('win16') || has('win64') || has('win95')
-		let name = expand('%:p:h') .'\' . expand('%:t:r') . '.exe'
-	else
-		let name = expand('%:p:h') .'/' . expand('%:t:r')
-	endif
-	if !executable(name)
-		call asclib#errmsg('error: expect: '. name)
-		return
-	elseif !executable(asclib#setting#get('emacs', 'emacs'))
-		call asclib#errmsg('error: not find emacs executable')
-		return
-	elseif !executable(asclib#setting#get('gdb', 'gdb'))
-		call asclib#errmsg('error: not find gdb executable')
-		return
-	endif
-	call asclib#utils#emacs_gdb(name)
-endfunc
+
 
 function! menu#ReadUrl()
-	let t = expand('<cword>')
-	echohl Type
-	call inputsave()
-	let t = input('Read URL from: ')
-	call inputrestore()
-	echohl None
-	redraw | echo "" | redraw
-	if t == ''
-		return 0
-	endif
-	if executable('curl')
-		exec '.-1r !curl -sL '.shellescape(t)
-	elseif executable('wget')
-		exec '.-1r !wget --no-check-certificate -qO- '.shellescape(t)
-	else
-		echo "require wget or curl"
-	endif
+    let t = expand('<cword>')
+    echohl Type
+    call inputsave()
+    let t = input('Read URL from: ')
+    call inputrestore()
+    echohl None
+    redraw | echo "" | redraw
+    if t == ''
+        return 0
+    endif
+    if executable('curl')
+        exec '.-1r !curl -sL '.shellescape(t)
+    elseif executable('wget')
+        exec '.-1r !wget --no-check-certificate -qO- '.shellescape(t)
+    else
+        echo "require wget or curl"
+    endif
 endfunc
 
 
@@ -248,8 +231,8 @@ call quickmenu#append('DelimitMate %{get(b:, "delimitMate_enabled", 0)? "[x]":"[
 
 
 if has('win32') || has('win64') || has('win16') || has('win95')
-	call quickmenu#append('Open cmd', 'call menu#WinOpen("cmd")', 'Open cmd.exe in current file directory')
-	call quickmenu#append('Open explorer', 'call menu#WinOpen("")', 'Open Windows Explorer in current file directory')
+    call quickmenu#append('Open cmd', 'call menu#WinOpen("cmd")', 'Open cmd.exe in current file directory')
+    call quickmenu#append('Open explorer', 'call menu#WinOpen("")', 'Open Windows Explorer in current file directory')
 endif
 
 
@@ -275,17 +258,17 @@ call quickmenu#append('Files including', 'call menu#Escope("i")', 'find (i): fil
 
 
 if has('win32') || has('win64') || has('win16') || has('win95')
-	call quickmenu#append('# Tortoise SVN / GIT', '')
-	call quickmenu#append('Project update', 'call svnhelp#tp_update()', 'update current repository')
-	call quickmenu#append('Project commit', 'call svnhelp#tp_commit()', 'commit this project')
-	call quickmenu#append('Project log', 'call svnhelp#tp_log()', 'display project log')
-	call quickmenu#append('Project diff', 'call svnhelp#tp_diff()', 'project diff')
-	call quickmenu#append('File add', 'call svnhelp#tf_add()', 'file add')
-	call quickmenu#append('File blame', 'call svnhelp#tf_blame()', 'file blame')
-	call quickmenu#append('File commit', 'call svnhelp#tf_commit()', 'file commit')
-	call quickmenu#append('File diff', 'call svnhelp#tf_diff()', 'file diff')
-	call quickmenu#append('File revert', 'call svnhelp#tf_revert()', 'file revert')
-	call quickmenu#append('File log', 'call svnhelp#tf_log()', 'file log')
+    call quickmenu#append('# Tortoise SVN / GIT', '')
+    call quickmenu#append('Project update', 'call svnhelp#tp_update()', 'update current repository')
+    call quickmenu#append('Project commit', 'call svnhelp#tp_commit()', 'commit this project')
+    call quickmenu#append('Project log', 'call svnhelp#tp_log()', 'display project log')
+    call quickmenu#append('Project diff', 'call svnhelp#tp_diff()', 'project diff')
+    call quickmenu#append('File add', 'call svnhelp#tf_add()', 'file add')
+    call quickmenu#append('File blame', 'call svnhelp#tf_blame()', 'file blame')
+    call quickmenu#append('File commit', 'call svnhelp#tf_commit()', 'file commit')
+    call quickmenu#append('File diff', 'call svnhelp#tf_diff()', 'file diff')
+    call quickmenu#append('File revert', 'call svnhelp#tf_revert()', 'file revert')
+    call quickmenu#append('File log', 'call svnhelp#tf_log()', 'file log')
 endif
 
 call quickmenu#append('# Tools', '')
@@ -301,39 +284,57 @@ call quickmenu#append('Emacs GDB', 'call menu#EmacsGdb()', 'debug with emacs gdb
 call quickmenu#append('Read URL', 'call menu#ReadUrl()', 'load content from url')
 
 if has('win32') || has('win64') || has('win16') || has('win95')
-	let s:cmd = '!start /b cmd.exe /C start https://wakatime.com/dashboard'
-	call quickmenu#append('WakaTime', 'silent! '.s:cmd, 'Goto WakaTime dashboard')
+    let s:cmd = '!start /b cmd.exe /C start https://wakatime.com/dashboard'
+    call quickmenu#append('WakaTime', 'silent! '.s:cmd, 'Goto WakaTime dashboard')
 endif
-
-
-" call quickmenu#append('GNU Global')
-
-
-"----------------------------------------------------------------------
-" Third menu
-"----------------------------------------------------------------------
-call quickmenu#current(2)
-call quickmenu#reset()
-
-call quickmenu#append('# Terminal', '')
-call quickmenu#append('Open Terminal Below', 'belowright term ++rows=10', 'Open terminal below current window')
-call quickmenu#append('Open Python Below', 'belowright term ++rows=10 python', 'Open python below current window')
-
-call quickmenu#append('# Debug', '')
 
 call quickmenu#current(3)
 call quickmenu#reset()
 
 " section 1, text starting with "#" represents a section (see the screen capture below)
-call g:quickmenu#append('# Develop', '')
+call g:quickmenu#append('# 优化', '')
 
-call g:quickmenu#append('clear trailing', 'silent! exec ":%s/\\s\\+$//gg"', '清理行尾空字符')
-call g:quickmenu#append('tab to space', 'exec ":%retab!"', 'tab转化为space')
+call g:quickmenu#append('-Trail -Tab', 'silent! exec ":%s/\\s\\+$//gg" | exec ":%retab!" | w', '清理行尾空字符,tab转化为space')
 call g:quickmenu#append('CRLF to LF', 'exec ":%s//\\n/gg"', '换行符转化')
-call g:quickmenu#append('LF to CRLF', 'echo "1.3 is selected"', '换行符转化')
 
 " section 2
-call g:quickmenu#append('# Misc', '')
+" section 3
+call g:quickmenu#append('# 其他', '')
 
-call g:quickmenu#append('item 2.1', 'echo "2.1 is selected"', 'select item 2.1')
-call g:quickmenu#append('item 2.2', 'echo "2.2 is selected"', 'select item 2.2')
+call g:quickmenu#append('Save session', 'SSave!', '保存会话')
+call g:quickmenu#append('Git diff', 'Gvdiffsplit |wincmd w', 'git差异')
+call g:quickmenu#append('enable gutentags', 'call EnableGutentags()', '启用gutentags')
+call g:quickmenu#append('Terminal', 'terminal', '内置终端')
+
+function! EnableGutentags()
+    exec ":GutentagsToggleEnabled"
+    if g:gutentags_enabled == 1
+        echom "已启用:gutentags"
+    else
+        echom "已禁用:gutentags"
+    endif
+endfunc
+":Files [PATH]	Files (similar to :FZF)
+":GFiles [OPTS]	Git files (git ls-files)
+":GFiles?	Git files (git status)
+":Buffers	Open buffers
+":Colors	Color schemes
+":Ag [PATTERN]	ag search result (ALT-A to select all, ALT-D to deselect all)
+":Rg [PATTERN]	rg search result (ALT-A to select all, ALT-D to deselect all)
+":Lines [QUERY]	Lines in loaded buffers
+":BLines [QUERY]	Lines in the current buffer
+":Tags [QUERY]	Tags in the project (ctags -R)
+":BTags [QUERY]	Tags in the current buffer
+":Marks	Marks
+":Windows	Windows
+":Locate PATTERN	locate command output
+":History	v:oldfiles and open buffers
+":History:	Command history
+":History/	Search history
+":Snippets	Snippets (UltiSnips)
+":Commits	Git commits (requires fugitive.vim)
+":BCommits	Git commits for the current buffer
+":Commands	Commands
+":Maps	Normal mode mappings
+":Helptags	Help tags 1
+":Filetypes	File types

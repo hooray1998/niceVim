@@ -14,9 +14,9 @@
 " 默认情况下的分组，可以再前面覆盖之
 "----------------------------------------------------------------------
 if !exists('g:bundle_group')
-    let g:bundle_group = ['basic', 'tags', 'enhanced', 'filetypes', 'textobj']
+    let g:bundle_group = ['basic', 'enhanced', 'filetypes', 'textobj']
     let g:bundle_group += ['tags', 'airline', 'nerdtree', 'ale']
-    let g:bundle_group += ['leaderf', 'menu']
+    let g:bundle_group += ['leaderf', 'menu', 'startify']
 endif
 
 
@@ -41,6 +41,7 @@ call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
 " 默认插件
 "----------------------------------------------------------------------
 
+Plug 'irrationalistic/vim-tasks'
 Plug 'skywind3000/quickmenu.vim'
 noremap <silent><F12> :call quickmenu#toggle(3)<cr>
 
@@ -99,8 +100,6 @@ augroup END
 "----------------------------------------------------------------------
 if index(g:bundle_group, 'basic') >= 0
 
-    " 展示开始画面，显示最近编辑过的文件
-    Plug 'mhinz/vim-startify'
 
     " 快速代码注释
     Plug 'scrooloose/nerdcommenter'
@@ -119,12 +118,11 @@ if index(g:bundle_group, 'basic') >= 0
     " 用于在侧边符号栏显示 git/svn 的 diff
     Plug 'mhinz/vim-signify'
 
+
+
     " 根据 quickfix 中匹配到的错误信息，高亮对应文件的错误行
     " 使用 :RemoveErrorMarkers 命令或者 <space>ha 清除错误
     Plug 'mh21/errormarker.vim'
-
-    " 使用 ALT+e 会在不同窗口/标签上显示 A/B/C 等编号，然后字母直接跳转
-    Plug 't9md/vim-choosewin'
 
     " 提供基于 TAGS 的定义预览，函数参数预览，quickfix 预览
     Plug 'skywind3000/vim-preview'
@@ -163,6 +161,7 @@ if index(g:bundle_group, 'basic') >= 0
     let g:signify_sign_delete_first_line = '‾'
     let g:signify_sign_change            = '~'
     let g:signify_sign_changedelete      = g:signify_sign_change
+    let g:signify_skip_filetype = { 'startify': 1 , 'tasks': 1 }
 
     " git 仓库使用 histogram 算法进行 diff
     let g:signify_vcs_cmds = {
@@ -180,8 +179,8 @@ if index(g:bundle_group, 'enhanced') >= 0
     Plug 'terryma/vim-expand-region'
 
     " 快速文件搜索
-    Plug 'junegunn/fzf'
-
+    Plug 'junegunn/fzf', { 'do': './install --bin' }
+    Plug 'junegunn/fzf.vim'
     " 给不同语言提供字典补全，插入模式下 c-x c-k 触发
     Plug 'asins/vim-dict'
 
@@ -195,7 +194,9 @@ if index(g:bundle_group, 'enhanced') >= 0
     Plug 'Raimondi/delimitMate'
 
     " 提供 gist 接口
-    Plug 'lambdalisue/vim-gista', { 'on': 'Gista' }
+    "Plug 'lambdalisue/vim-gista', { 'on': 'Gista' }
+    "Plug 'mattn/webapi-vim'
+    "Plug 'mattn/vim-gist'
 
     " ALT_+/- 用于按分隔符扩大缩小 v 选区
     map <m-=> <Plug>(expand_region_expand)
@@ -213,6 +214,8 @@ if index(g:bundle_group, 'tags') >= 0
     " 提供 ctags/gtags 后台数据库自动更新功能
     Plug 'ludovicchabant/vim-gutentags'
     let g:gutentags_define_advanced_commands = 1 "启用更多功能
+    let g:gutentags_enabled = 0 " 使用GutentagsToggleEnable启用
+    let g:gutentags_dont_load = 0
     let $GTAGSLABEL = 'native-pygments'
     let $GTAGSCONF = '/usr/local/share/gtags/gtags.conf'
 
@@ -249,8 +252,7 @@ if index(g:bundle_group, 'tags') >= 0
     " 默认生成的数据文件集中到 ~/.cache/tags 避免污染项目目录，好清理
     let g:gutentags_cache_dir = expand('~/.cache/tags')
 
-    let g:gutentags_exclude_filetypes = ['markdown', 'txt']
-    "let g:gutentags_exclude_filetypes = [ 'c', 'cpp', 'python', 'go', 'java', 'lua' ]
+    let g:gutentags_exclude_filetypes = ['json', 'markdown', 'txt', 'vim']
     " 默认禁用自动生成
     let g:gutentags_modules = []
 
@@ -311,6 +313,10 @@ endif
 " 文件类型扩展
 "----------------------------------------------------------------------
 if index(g:bundle_group, 'filetypes') >= 0
+    " 注释掉syntax目录才能正确高亮
+    Plug 'plasticboy/vim-markdown'
+    Plug 'iamcco/markdown-preview.vim'
+    Plug 'iamcco/mathjax-support-for-mkdp'
 
     " powershell 脚本文件的语法高亮
     Plug 'pprovost/vim-ps1', { 'for': 'ps1' }
@@ -375,6 +381,10 @@ if index(g:bundle_group, 'nerdtree') >= 0
     let g:NERDTreeMinimalUI = 1
     let g:NERDTreeDirArrows = 1
     let g:NERDTreeHijackNetrw = 0
+    let g:NERDTreeChDirMode=1
+    let g:NERDTreeShowBookmarks=0
+    let g:NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
+    let g:NERDTreeWinSize=25
     noremap <space>nn :NERDTree<cr>
     noremap <space>no :NERDTreeFocus<cr>
     noremap <space>nm :NERDTreeMirror<cr>
@@ -420,7 +430,7 @@ if index(g:bundle_group, 'ale') >= 0
 
 
     " 获取 pylint, flake8 的配置文件，在 vim-init/tools/conf 下面
-    function s:lintcfg(name)
+    function! s:lintcfg(name)
         let conf = s:path('tools/conf/')
         let path1 = conf . a:name
         let path2 = expand('~/.vim/linter/'. a:name)
@@ -477,14 +487,15 @@ if index(g:bundle_group, 'leaderf') >= 0
         noremap <c-n> :LeaderfMru<cr>
 
         " ALT+p 打开函数列表，按 i 进入模糊匹配，ESC 退出
-        noremap <m-p> :LeaderfFunction!<cr>
+        noremap <m-l> :LeaderfFunction!<cr>
 
         " ALT+SHIFT+p 打开 tag 列表，i 进入模糊匹配，ESC退出
-        noremap <m-P> :LeaderfBufTag!<cr>
+        noremap <m-L> :LeaderfBufTag!<cr>
 
         " ALT+m 全局 tags 模糊匹配
         noremap <m-m> :LeaderfTag<cr>
 
+        noremap <m-*> :<C-U><C-R>=printf("Leaderf rg %s ", expand("<cword>"))<CR><CR>
         " 最大历史文件保存 2048 个
         let g:Lf_MruMaxFiles = 2048
 
@@ -529,12 +540,114 @@ if index(g:bundle_group, 'leaderf') >= 0
     endif
 endif
 
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+if index(g:bundle_group, 'startify') >= 0
+    " 展示开始画面，显示最近编辑过的文件
+    Plug 'mhinz/vim-startify'
 
+    autocmd User Startified exec "vsplit /tmp/my.todo \| set ft=tasks \| wincmd w"
+    autocmd User Startified nmap <buffer> <leader>e :qa<CR>
+    autocmd User StartifyBufferOpened silent execute "bd *.todo"
+
+    let g:startify_enable_special      = 0
+    let g:startify_files_number        = 6
+    let g:startify_relative_path       = 1
+
+    let g:startify_skiplist = [
+            \ 'COMMIT_EDITMSG',
+            \ 'bundle/.*/doc',
+            \ '/data/repo/neovim/runtime/doc',
+            \ '/Users/mhi/local/vim/share/vim/vim74/doc',
+            \ ]
+
+    let g:startify_bookmarks = [
+            \ { 'c': '~/.vim/vimrc' },
+            \ '~/golfing',
+            \ ]
+
+
+    let g:startify_custom_footer =
+           \ ['', "   撸起袖子加油干", '']
+
+    let g:startify_lists = [
+          \ { 'type': 'files',     'header': ['   MRU']            },
+          \ { 'type': 'sessions',  'header': ['   Sessions']       },
+          \ { 'type': 'commands',  'header': ['   Commands']       },
+          \ ]
+          "\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+
+    let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
+    let g:startify_custom_header_quotes = [
+        \ {-> systemlist('shuf -n2 /tmp/quote.list')}
+        \ ]
+
+    let g:startify_commands = [
+        \ {'n': ['history', 'LeaderfMru']},
+        \ {'f': ['files', 'LeaderfFile']},
+        \ {'c': ['commands', 'Commands']},
+        \ {'g': ['git status', 'vertical topleft G | vertical resize -35']},
+        \ {'v': ['vim config', 'e ~/.vim/niceVim/init.vim']},
+        \ {'m': ['map config', 'e ~/.vim/niceVim/init/init-keymaps.vim']},
+        \ {'p': ['plugin config', ':e ~/.vim/niceVim/init/init-plugins.vim']},
+        \ ]
+endif
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'honza/vim-snippets'
+Plug 'voldikss/vim-translator'
+"let g:translator_target_lang = 'zh'
+"let g:translator_source_lang = 'auto'
+"let g:translator_default_engines = ['ciba', 'youdao']
+let g:translator_history_enable = v:true
+"let g:translator_proxy_url = 'socks5://127.0.0.1:1080'
 "----------------------------------------------------------------------
 " 结束插件安装
 "----------------------------------------------------------------------
 call plug#end()
 
+let g:startify_custom_header = startify#pad(startify#fortune#boxed())
+"
+"
 
+function! OpenFloatingWin()
+  let height = &lines - 3
+  let width = float2nr(&columns - (&columns * 2 / 10))
+  let col = float2nr((&columns - width) / 2)
 
+  " 设置浮动窗口打开的位置，大小等。
+  " 这里的大小配置可能不是那么的 flexible 有继续改进的空间
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': height * 0.2,
+        \ 'col': col,
+        \ 'width': width ,
+        \ 'height': height * 2 / 3
+        \ }
+
+  let buf = nvim_create_buf(v:false, v:true)
+  let win = nvim_open_win(buf, v:true, opts)
+
+  " 设置浮动窗口高亮
+  call setwinvar(win, '&winhl', 'Normal:Pmenu')
+
+  setlocal
+        \ buftype=nofile
+        \ nobuflisted
+        \ bufhidden=hide
+        \ nonumber
+        \ norelativenumber
+        \ signcolumn=no
+endfunction
+" 让输入上方，搜索列表在下方
+let $FZF_DEFAULT_OPTS = '--layout=reverse'
+
+" 打开 fzf 的方式选择 floating window
+let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
+
+nnoremap <silent> <Space>f :Files<CR>
+nnoremap <silent> <Space>b :Buffers<CR>
+nnoremap <silent> <Space>l :BLines<CR>
+nnoremap <silent> <Space>L :Lines<CR>
+autocmd FileType startify nnoremap <silent><buffer> l <C-W>l
+
+nnoremap <silent> <m-n> :cn<CR>
+nnoremap <silent> <m-p> :cp<CR>

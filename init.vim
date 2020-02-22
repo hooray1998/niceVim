@@ -38,5 +38,7 @@ LoadScript init/init-plugins.vim
 LoadScript init/init-style.vim
 LoadScript init/init-keymaps.vim
 LoadScript init/menu.vim
+LoadScript init/markdown.vim
 
+autocmd FileType vim nnoremap <C-r> :so %<CR>
 colorscheme onedark

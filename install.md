@@ -2,13 +2,18 @@
 
 :PlugInstall
 
+```sh
 install anaconda3
 pip install neovim
 pip install pylint(python 语法检查)
 pip install pygments (配合gtags)
 
+npm i -g fd-find
+zypper in fd
+```
+
 wget https://dl.google.com/go/go1.11.5.linux-amd64.tar.gz
-tar xvf go1.11.5.linux-amd64.tar.gz -C .local/ 
+tar xvf go1.11.5.linux-amd64.tar.gz -C .local/
 加上go的环境变量
 go　get github.com:efm-lsp
 加上efm的环境变量
@@ -93,6 +98,12 @@ https://github.com/skywind3000/vim/blob/master/asc/menu.vim
 
 ## 安装ctags, gtags
 
+sudo apt install automake autoconf libtool
+./autogen.sh
+./configure --prefix=/home/itt/.local
+make
+make install # may require extra privileges depending on where to install
+
 ## 定义和引用
 
 gutentags_plus.vim 的小脚本做这个事，直接用里面的 GscopeFind 命令，像 cs find 一样用就行了。
@@ -129,6 +140,35 @@ C-w z 删除预览窗口
 ## 查看
 
 ## 补全插件coc
+
 ```python
+if you
 print("fasd")
 ```
+
+
+
+## 配置 leaderf rg的用法
+alt-*
+
+## 菜单栏清晰一点
+
+3. 翻译插件
+
+1. 开始显示todo
+    1. git
+    2. session
+    3. mru dir
+    4. command
+    5. 删除名言
+    显示两列
+
+
+
+配置markdown
+
+配置coclist的其他用法
+npm i -g bash-language-server
+
+配置ycm
+离线词典
