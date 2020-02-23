@@ -546,7 +546,7 @@ if index(g:bundle_group, 'startify') >= 0
 
     autocmd User Startified exec "vsplit /tmp/my.todo \| set ft=tasks \| wincmd w"
     autocmd User Startified nmap <buffer> <leader>e :qa<CR>
-    autocmd User StartifyBufferOpened silent execute "bd *.todo"
+    autocmd User StartifyBufferOpened silent execute "wincmd o"
 
     let g:startify_enable_special      = 0
     let g:startify_files_number        = 6

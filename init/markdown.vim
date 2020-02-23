@@ -32,32 +32,18 @@ let g:vim_markdown_math = 1
 let g:vim_markdown_strikethrough = 1
 
 
-let g:mkdp_auto_start = 0
-" Set to 1, Vim will open the preview window on entering the Markdown
-" buffer.
-
-let g:mkdp_auto_open = 0
-" Set to 1, Vim will automatically open the preview window when you edit a
-" Markdown file.
-
-let g:mkdp_auto_close = 1
-" Set to 1, Vim will automatically close the current preview window when
-" switching from one Markdown buffer to another.
-
+" 不自启，自动刷新，自动关闭，命令只在md中有效
 let g:mkdp_refresh_slow = 0
-" Set to 1, Vim will just refresh Markdown when saving the buffer or
-" leaving from insert mode. With default 0, it will automatically refresh
-" Markdown as you edit or move the cursor.
-
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_open = 0
+let g:mkdp_auto_close = 1
 let g:mkdp_command_for_global = 0
-" Set to 1, the MarkdownPreview command can be used for all files,
-" by default it can only be used in Markdown files.
 
 "===============================================================
 "    NOTE:  For Notes
 "===============================================================
 " 集成Enter，list快速进入文件，markdown快速运行代码
-function RunCode()
+function! RunCode()
 	.normal mb?```"ayy
 	if match(@a,"cpp")>-1
 		.normal VNkoj:w /tmp/tmp.cpp
@@ -80,16 +66,22 @@ endfunc
 
 "command! InstantMarkdownStop :!killall nodejs<CR>
 
-" 可是模式输入C-l增加行号
-function AddListNumber()
-	let lnum = getpos('.')[1] + 1 - getpos("'<")[1]
-	. normal I=lnum. 
+" 可视模式输入C-l增加行号
+" 改进：只在同等缩进的行添加行号
+function! AddListNumber()
+    let i = 1
+    let spaceNum = match(getline("'<"), "\\S")
+    exec "'<,'>g/^\\ \\{" .spaceNum. "\\}\\S/norm ^i=i. :let i+=1"
+    "echo "curline:". spaceNum
+	"let lnum = getpos('.')[1] + 1 - getpos("'<")[1]
+	". normal I=lnum. 
 endfunc
-function AddListFlag()
-	. normal ^i- 
+function! AddListFlag()
+    let spaceNum = match(getline("'<"), "\\S")
+    exec "'<,'>g/^\\ \\{" .spaceNum. "\\}\\S/norm ^i- "
 endfunc
 
-function SetTitle()
+function! SetTitle()
 	.normal "yyy
 	if match(@y,"#")>-1
 		.normal I#
@@ -104,7 +96,7 @@ let g:tlRememberPosition = 1  "下次打开时会恢复到上次关闭时的位�
 
 "	记录上一次的markdown笔记的目录
 autocmd BufEnter  * call RecordPath()
-function RecordPath()
+function! RecordPath()
 	if match(expand("%:p"),'Notes') > -1
 		call writefile([expand("%:p")],expand("$HOME/.last-vim-list/last-note"))
 	endif
@@ -133,12 +125,12 @@ endfunc
 
 augroup pscbindings
 	autocmd! pscbindings
-	autocmd FileType markdown nnoremap <buffer> <enter> :call RunCode()<CR>
-	autocmd FileType markdown vnoremap <buffer> <C-l> :call AddListNumber()<CR>
-	autocmd FileType markdown vnoremap <buffer> <C-k> :call AddListFlag()<CR>
-	autocmd FileType markdown nnoremap <buffer> <C-b> I**<ESC>A**<ESC>
-	autocmd FileType markdown vnoremap <buffer> c <ESC>:call AddCodeFlag()<CR>
-	autocmd FileType markdown nnoremap <buffer> # :call SetTitle()<CR>
+	autocmd FileType markdown nnoremap <buffer> <Enter> :call RunCode()<CR>
+	autocmd FileType markdown vnoremap <buffer> <C-l>   <ESC>:call AddListNumber()<CR>
+	autocmd FileType markdown vnoremap <buffer> <C-k>   <ESC>:call AddListFlag()<CR>
+	autocmd FileType markdown nnoremap <buffer> <C-b>   I**<ESC>A**<ESC>
+	autocmd FileType markdown vnoremap <buffer> c       <ESC>:call AddCodeFlag()<CR>
+	autocmd FileType markdown nnoremap <buffer> #       :call SetTitle()<CR>
 augroup end
 
 
