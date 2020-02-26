@@ -13,7 +13,7 @@
 
 
 " 更改折叠方式，全部只占一行
-let g:vim_markdown_folding_style_pythonic=1
+let g:vim_markdown_folding_style_pythonic=3
 " 从二级标题开始折叠
 let g:vim_markdown_folding_level = 9
 " Toc的quickfix窗口大小自动调整
@@ -117,7 +117,7 @@ function! AddCodeFlag()
     let bottom = getpos("'>")
     "echo ax .','. ay .' => '. bx.','. by
     if curmode ==# 'V' || top[1] < bottom[1]
-        exec "normal `>o````<O````" . g:CodeLanguage
+        exec "normal `>o````<O```" . g:CodeLanguage
     else
         exec "normal `>a``<i`"
     endif
@@ -131,7 +131,46 @@ augroup pscbindings
 	autocmd FileType markdown nnoremap <buffer> <C-b>   I**<ESC>A**<ESC>
 	autocmd FileType markdown vnoremap <buffer> c       <ESC>:call AddCodeFlag()<CR>
 	autocmd FileType markdown nnoremap <buffer> #       :call SetTitle()<CR>
+    "setlocal foldlevel=1        " 设置折叠层数为
+    "autocmd FileType markdown nnoremap <buffer> ; @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 augroup end
 
 
+"autocmd Filetype markdown map <leader>w yiWi[<esc>Ea](<esc>pa)
+autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
+autocmd Filetype markdown inoremap <buffer> ,w <Esc>/ <++><CR>:nohlsearch<CR>"_c5l<CR>
+autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>
+autocmd Filetype markdown inoremap <buffer> ,b **** <++><Esc>F*hi
+autocmd Filetype markdown inoremap <buffer> ,s ~~~~ <++><Esc>F~hi
+autocmd Filetype markdown inoremap <buffer> ,i ** <++><Esc>F*i
+autocmd Filetype markdown inoremap <buffer> ,d `` <++><Esc>F`i
+autocmd Filetype markdown inoremap <buffer> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
+autocmd Filetype markdown inoremap <buffer> ,m - [ ] <Enter><++><ESC>kA
+autocmd Filetype markdown inoremap <buffer> ,p ![](<++>) <++><Esc>F[a
+autocmd Filetype markdown inoremap <buffer> ,a [](<++>) <++><Esc>F[a
+autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> ,l --------<Enter>
 
+"自定义 代码快捷输入
+"Markdown
+"快捷键	呈现效果
+",n	---
+",b	文本 加粗
+",s	文本中划线
+",i	文本 斜体
+",d	代码块
+",c	大 代码块
+",m	- [ ] 复选框
+",p	图片
+",a	超链接
+",1	# 标题1
+",2	## 标题2
+",3	### 标题3
+",4	#### 标题4
+",l	--------
+",f 跳转到至下一个 <++> (占位符)
+
+",w 跳转至下一个 <++> (占位符) 然后帮你键入Enter

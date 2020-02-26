@@ -17,6 +17,8 @@ if !exists('g:bundle_group')
     let g:bundle_group = ['basic', 'enhanced', 'filetypes', 'textobj']
     let g:bundle_group += ['tags', 'airline', 'nerdtree', 'ale']
     let g:bundle_group += ['leaderf', 'menu', 'startify']
+    let g:bundle_group += ['markdown']
+
 endif
 
 
@@ -35,19 +37,55 @@ endfunc
 " 在 ~/.vim/bundles 下安装插件
 "----------------------------------------------------------------------
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
+"Plug 'terryma/vim-multiple-cursors'
+"Plug 'ryanoasis/vim-devicons'
+Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown'}
+Plug 'skywind3000/vim-terminal-help'
+"Plug 'arzg/vim-colors-xcode'
+Plug 'brglng/vim-sidebar-manager'
+Plug 'mbbill/undotree'
+Plug 'liuchengxu/vista.vim'
+if has("persistent_undo")
+    set undodir=$HOME/.undodir
+    set undofile
+endif
+let g:vista_sidebar_position = 'vertical topleft'
+let g:vista_sidebar_width = 40
+let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_SplitWidth = 40
 
+let g:sidebars = {
+  \ 'coc-explorer': {
+  \     'position': 'left',
+  \     'check_win': {nr -> getwinvar(nr, '&filetype') ==# 'coc-explorer'},
+  \     'open': 'CocCommand explorer --no-toggle',
+  \     'close': 'CocCommand explorer --toggle'
+  \ },
+  \ 'vista': {
+  \     'position': 'right',
+  \     'check_win': {nr -> bufname(winbufnr(nr)) =~ '__vista__'},
+  \     'open': 'Vista',
+  \     'close': 'Vista!'
+  \ },
+  \ 'undotree': {
+  \     'position': 'left',
+  \     'check_win': {nr -> getwinvar(nr, '&filetype') ==# 'undotree'},
+  \     'open': 'UndotreeShow',
+  \     'close': 'UndotreeHide'
+  \ }
+  \ }
 
+noremap <silent> <M-1> :call sidebar#toggle('coc-explorer')<CR>
+noremap <silent> <M-2> :call sidebar#toggle('vista')<CR>
+noremap <silent> <M-3> :call sidebar#toggle('undotree')<CR>
+let g:startify_session_before_save = ['call sidebar#close_all()']
 "----------------------------------------------------------------------
 " 默认插件
 "----------------------------------------------------------------------
 
-Plug 'irrationalistic/vim-tasks'
+"Plug 'irrationalistic/vim-tasks'
+autocmd BufNewFile,BufReadPost *.TODO,TODO,*.todo,*.todolist,*.taskpaper,*.tasks set filetype=tasks
 Plug 'skywind3000/quickmenu.vim'
-noremap <silent><F12> :call quickmenu#toggle(3)<cr>
-
-"noremap <silent><F1> :call quickmenu#toggle(0)<cr>
-"noremap <silent><F2> :call quickmenu#toggle(1)<cr>
-"noremap <silent><F3> :call quickmenu#toggle(2)<cr>
 
 " 全文快速移动，<leader><leader>f{char} 即可触发
 Plug 'easymotion/vim-easymotion'
@@ -55,13 +93,12 @@ nmap <C-f> <Plug>(easymotion-s2)
 
 " 文件浏览器，代替 netrw
 Plug 'justinmk/vim-dirvish'
-
 " 表格对齐，使用命令 Tabularize
 Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
 
 " Diff 增强，支持 histogram / patience 等更科学的 diff 算法
 Plug 'chrisbra/vim-diff-enhanced'
-
+autocmd VimEnter * EnhancedDiff histogram
 
 "----------------------------------------------------------------------
 " Dirvish 设置：自动排序并隐藏文件，同时定位到相关文件
@@ -94,7 +131,20 @@ augroup MyPluginSetup
     autocmd FileType dirvish call s:setup_dirvish()
 augroup END
 
+if index(g:bundle_group, 'markdown') >= 0
+    " 注释掉syntax目录才能正确高亮
+    Plug 'plasticboy/vim-markdown'
+    "Plug 'iamcco/markdown-preview.nvim'
+    " If you don't have nodejs and yarn
+    " use pre build
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+    Plug 'iamcco/mathjax-support-for-mkdp'
 
+    Plug 'hotoo/pangu.vim'
+    Plug 'junegunn/goyo.vim'
+    Plug 'Chiel92/vim-autoformat'
+    "Plug 'amix/vim-zenroom2'
+endif
 "----------------------------------------------------------------------
 " 基础插件
 "----------------------------------------------------------------------
@@ -165,8 +215,8 @@ if index(g:bundle_group, 'basic') >= 0
 
     " git 仓库使用 histogram 算法进行 diff
     let g:signify_vcs_cmds = {
-            \ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
-            \}
+                \ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
+                \}
 endif
 
 
@@ -191,7 +241,7 @@ if index(g:bundle_group, 'enhanced') >= 0
     Plug 'dyng/ctrlsf.vim'
 
     " 配对括号和引号自动补全
-    Plug 'Raimondi/delimitMate'
+    "Plug 'Raimondi/delimitMate'
 
     " 提供 gist 接口
     "Plug 'lambdalisue/vim-gista', { 'on': 'Gista' }
@@ -236,15 +286,15 @@ if index(g:bundle_group, 'tags') >= 0
     noremap <silent> <space>gf :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
     noremap <silent> <space>gi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
     noremap <silent> <space>ga :GscopeFind a <C-R><C-W><cr>
-"| `<leader>gs` | Find symbol (reference) under cursor |
-"| `<leader>gg` | Find symbol definition under cursor |
-"| `<leader>gd` | Functions called by this function |
-"| `<leader>gc` | Functions calling this function |
-"| `<leader>gt` | Find text string under cursor |
-"| `<leader>ge` | Find egrep pattern under cursor |
-"| `<leader>gf` | Find file name under cursor |
-"| `<leader>gi` | Find files #including the file name under cursor |
-"| `<leader>ga` | Find places where current symbol is assigned |
+    "| `<leader>gs` | Find symbol (reference) under cursor |
+    "| `<leader>gg` | Find symbol definition under cursor |
+    "| `<leader>gd` | Functions called by this function |
+    "| `<leader>gc` | Functions calling this function |
+    "| `<leader>gt` | Find text string under cursor |
+    "| `<leader>ge` | Find egrep pattern under cursor |
+    "| `<leader>gf` | Find file name under cursor |
+    "| `<leader>gi` | Find files #including the file name under cursor |
+    "| `<leader>ga` | Find places where current symbol is assigned |
 
     " 设定项目目录标志：除了 .git/.svn 外，还有 .root 文件
     let g:gutentags_project_root = ['.root']
@@ -274,7 +324,7 @@ if index(g:bundle_group, 'tags') >= 0
     let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 
     " 使用 universal-ctags 的话需要下面这行，请反注释
-    "let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+    let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 
     " 禁止 gutentags 自动链接 gtags 数据库
     let g:gutentags_auto_add_gtags_cscope = 1
@@ -313,10 +363,6 @@ endif
 " 文件类型扩展
 "----------------------------------------------------------------------
 if index(g:bundle_group, 'filetypes') >= 0
-    " 注释掉syntax目录才能正确高亮
-    Plug 'plasticboy/vim-markdown'
-    Plug 'iamcco/markdown-preview.vim'
-    Plug 'iamcco/mathjax-support-for-mkdp'
 
     " powershell 脚本文件的语法高亮
     Plug 'pprovost/vim-ps1', { 'for': 'ps1' }
@@ -366,7 +412,7 @@ if index(g:bundle_group, 'airline') >= 0
     let g:airline#extensions#tabline#show_buffers = 0
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
-    let g:airline#extensions#tabline#tabs_label = 'iTT'
+    let g:airline#extensions#tabline#tabs_label = 'Go'
     let g:airline#extensions#tabline#show_close_button = 0
     let g:airline#extensions#tabline#show_splits = 0
     let g:airline#extensions#tabline#show_tab_count = 1
@@ -487,10 +533,10 @@ if index(g:bundle_group, 'leaderf') >= 0
         noremap <c-n> :LeaderfMru<cr>
 
         " ALT+p 打开函数列表，按 i 进入模糊匹配，ESC 退出
-        noremap <m-l> :LeaderfFunction!<cr>
+        "noremap <c-k> :LeaderfFunction<cr>
 
         " ALT+SHIFT+p 打开 tag 列表，i 进入模糊匹配，ESC退出
-        noremap <m-L> :LeaderfBufTag!<cr>
+        "noremap <c-k> :LeaderfBufTag<cr>
 
         " ALT+m 全局 tags 模糊匹配
         noremap <m-m> :LeaderfTag<cr>
@@ -529,13 +575,13 @@ if index(g:bundle_group, 'leaderf') >= 0
 
         " 使用 ESC 键可以直接退出 leaderf 的 normal 模式
         let g:Lf_NormalMap = {
-                \ "File":   [["<ESC>", ':exec g:Lf_py "fileExplManager.quit()"<CR>']],
-                \ "Buffer": [["<ESC>", ':exec g:Lf_py "bufExplManager.quit()"<cr>']],
-                \ "Mru": [["<ESC>", ':exec g:Lf_py "mruExplManager.quit()"<cr>']],
-                \ "Tag": [["<ESC>", ':exec g:Lf_py "tagExplManager.quit()"<cr>']],
-                \ "BufTag": [["<ESC>", ':exec g:Lf_py "bufTagExplManager.quit()"<cr>']],
-                \ "Function": [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<cr>']],
-                \ }
+                    \ "File":   [["<ESC>", ':exec g:Lf_py "fileExplManager.quit()"<CR>']],
+                    \ "Buffer": [["<ESC>", ':exec g:Lf_py "bufExplManager.quit()"<cr>']],
+                    \ "Mru": [["<ESC>", ':exec g:Lf_py "mruExplManager.quit()"<cr>']],
+                    \ "Tag": [["<ESC>", ':exec g:Lf_py "tagExplManager.quit()"<cr>']],
+                    \ "BufTag": [["<ESC>", ':exec g:Lf_py "bufTagExplManager.quit()"<cr>']],
+                    \ "Function": [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<cr>']],
+                    \ }
 
     endif
 endif
@@ -544,7 +590,7 @@ if index(g:bundle_group, 'startify') >= 0
     " 展示开始画面，显示最近编辑过的文件
     Plug 'mhinz/vim-startify'
 
-    autocmd User Startified exec "vsplit /tmp/my.todo \| set ft=tasks \| wincmd w"
+    autocmd User Startified exec "vsplit /media/Document/my.todo \| set ft=tasks \| wincmd w"
     autocmd User Startified nmap <buffer> <leader>e :qa<CR>
     autocmd User StartifyBufferOpened silent execute "wincmd o"
 
@@ -553,45 +599,51 @@ if index(g:bundle_group, 'startify') >= 0
     let g:startify_relative_path       = 1
 
     let g:startify_skiplist = [
-            \ 'COMMIT_EDITMSG',
-            \ 'bundle/.*/doc',
-            \ '/data/repo/neovim/runtime/doc',
-            \ '/Users/mhi/local/vim/share/vim/vim74/doc',
-            \ ]
+                \ 'COMMIT_EDITMSG',
+                \ 'bundle/.*/doc',
+                \ '/data/repo/neovim/runtime/doc',
+                \ '/Users/mhi/local/vim/share/vim/vim74/doc',
+                \ ]
 
     let g:startify_bookmarks = [
-            \ { 'c': '~/.vim/vimrc' },
-            \ '~/golfing',
-            \ ]
+                \ { 'c': '~/.vim/vimrc' },
+                \ '~/golfing',
+                \ ]
 
 
     let g:startify_custom_footer =
-           \ ['', "   撸起袖子加油干", '']
+                \ ['', "   撸起袖子加油干", '']
 
     let g:startify_lists = [
-          \ { 'type': 'files',     'header': ['   MRU']            },
-          \ { 'type': 'sessions',  'header': ['   Sessions']       },
-          \ { 'type': 'commands',  'header': ['   Commands']       },
-          \ ]
-          "\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+                \ { 'type': 'files',     'header': ['   MRU']            },
+                \ { 'type': 'sessions',  'header': ['   Sessions']       },
+                \ { 'type': 'commands',  'header': ['   Commands']       },
+                \ ]
+                "\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
 
     let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
     let g:startify_custom_header_quotes = [
-        \ {-> systemlist('shuf -n2 /tmp/quote.list')}
-        \ ]
+                \ {-> systemlist('shuf -n2 $HOME/quote.list')}
+                \ ]
 
     let g:startify_commands = [
-        \ {'n': ['history', 'LeaderfMru']},
-        \ {'f': ['files', 'LeaderfFile']},
-        \ {'c': ['commands', 'Commands']},
-        \ {'g': ['git status', 'vertical topleft G | vertical resize -35']},
-        \ {'v': ['vim config', 'e ~/.vim/niceVim/init.vim']},
-        \ {'m': ['map config', 'e ~/.vim/niceVim/init/init-keymaps.vim']},
-        \ {'p': ['plugin config', ':e ~/.vim/niceVim/init/init-plugins.vim']},
-        \ ]
+                \ {'n': ['history', 'LeaderfMru']},
+                \ {'f': ['files', 'LeaderfFile']},
+                \ {'c': ['commands', 'Commands']},
+                \ {'g': ['git status', 'vertical topleft G | vertical resize -35']},
+                \ {'v': ['vim config', 'e ~/.vim/niceVim/init.vim']},
+                \ {'m': ['map config', 'e ~/.vim/niceVim/init/init-keymaps.vim']},
+                \ {'p': ['plugin config', ':e ~/.vim/niceVim/init/init-plugins.vim']},
+                \ ]
 endif
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" 括号配对后cr增强
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+				\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+autocmd FileType markdown let b:coc_pairs_disabled = ['`']
+
 Plug 'honza/vim-snippets'
 Plug 'voldikss/vim-translator'
 "let g:translator_target_lang = 'zh'
@@ -609,33 +661,33 @@ let g:startify_custom_header = startify#pad(startify#fortune#boxed())
 "
 
 function! OpenFloatingWin()
-  let height = &lines - 3
-  let width = float2nr(&columns - (&columns * 2 / 10))
-  let col = float2nr((&columns - width) / 2)
+    let height = &lines - 3
+    let width = float2nr(&columns - (&columns * 2 / 10))
+    let col = float2nr((&columns - width) / 2)
 
-  " 设置浮动窗口打开的位置，大小等。
-  " 这里的大小配置可能不是那么的 flexible 有继续改进的空间
-  let opts = {
-        \ 'relative': 'editor',
-        \ 'row': height * 0.2,
-        \ 'col': col,
-        \ 'width': width ,
-        \ 'height': height * 2 / 3
-        \ }
+    " 设置浮动窗口打开的位置，大小等。
+    " 这里的大小配置可能不是那么的 flexible 有继续改进的空间
+    let opts = {
+                \ 'relative': 'editor',
+                \ 'row': height * 0.2,
+                \ 'col': col,
+                \ 'width': width ,
+                \ 'height': height * 2 / 3
+                \ }
 
-  let buf = nvim_create_buf(v:false, v:true)
-  let win = nvim_open_win(buf, v:true, opts)
+    let buf = nvim_create_buf(v:false, v:true)
+    let win = nvim_open_win(buf, v:true, opts)
 
-  " 设置浮动窗口高亮
-  call setwinvar(win, '&winhl', 'Normal:Pmenu')
+    " 设置浮动窗口高亮
+    call setwinvar(win, '&winhl', 'Normal:Pmenu')
 
-  setlocal
-        \ buftype=nofile
-        \ nobuflisted
-        \ bufhidden=hide
-        \ nonumber
-        \ norelativenumber
-        \ signcolumn=no
+    setlocal
+                \ buftype=nofile
+                \ nobuflisted
+                \ bufhidden=hide
+                \ nonumber
+                \ norelativenumber
+                \ signcolumn=no
 endfunction
 " 让输入上方，搜索列表在下方
 let $FZF_DEFAULT_OPTS = '--layout=reverse'
@@ -651,3 +703,14 @@ autocmd FileType startify nnoremap <silent><buffer> l <C-W>l
 
 nnoremap <silent> <m-n> :cn<CR>
 nnoremap <silent> <m-p> :cp<CR>
+
+autocmd FileType tasks let b:coc_pairs_disabled = ['(', ')']
+
+let g:vista_default_executive = 'ctags'
+let g:vista_executive_for = {
+  \ 'python': 'coc',
+  \ }
+" e.g., more compact: 
+" Note: this option only works the LSP executives, doesn't work for `:Vista ctags`.
+"let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+let g:vista_icon_indent = ["▸ ", ""]

@@ -294,8 +294,10 @@ call quickmenu#reset()
 " section 1, text starting with "#" represents a section (see the screen capture below)
 call g:quickmenu#append('# 优化', '')
 
-call g:quickmenu#append('-Trail -Tab', 'silent! exec ":%s/\\s\\+$//gg" | exec ":%retab!" | w', '清理行尾空字符,tab转化为space')
-call g:quickmenu#append('CRLF to LF', 'exec ":%s//\\n/gg"', '换行符转化')
+call g:quickmenu#append('格式化', 'Autoformat', '使用特定的工具格式化代码')   
+call g:quickmenu#append('专注模式', 'Goyo', '专注写作模式')   
+call g:quickmenu#append('Tab2Space', '%s/\t/    /gg | %s/\s*$//gg | w','Tab2Space & trailing')
+call g:quickmenu#append('CRLF to LF', 'exec ":%s///gg"', '换行符转化')
 
 " section 2
 " section 3
@@ -314,27 +316,38 @@ function! EnableGutentags()
         echom "已禁用:gutentags"
     endif
 endfunc
+
 ":Files [PATH]	Files (similar to :FZF)
-":GFiles [OPTS]	Git files (git ls-files)
-":GFiles?	Git files (git status)
 ":Buffers	Open buffers
-":Colors	Color schemes
+"
 ":Ag [PATTERN]	ag search result (ALT-A to select all, ALT-D to deselect all)
 ":Rg [PATTERN]	rg search result (ALT-A to select all, ALT-D to deselect all)
-":Lines [QUERY]	Lines in loaded buffers
-":BLines [QUERY]	Lines in the current buffer
 ":Tags [QUERY]	Tags in the project (ctags -R)
 ":BTags [QUERY]	Tags in the current buffer
-":Marks	Marks
-":Windows	Windows
-":Locate PATTERN	locate command output
-":History	v:oldfiles and open buffers
+"
+"
 ":History:	Command history
+cnoremap <c-r>: History:<CR>
 ":History/	Search history
-":Snippets	Snippets (UltiSnips)
+cnoremap <c-r>/ History/<CR>
+
+"<Space>l  => BLines
+"<Space>L  => Lines
+":Lines [QUERY]	Lines in loaded buffers
+":BLines [QUERY]	Lines in the current buffer
+"
+"
 ":Commits	Git commits (requires fugitive.vim)
 ":BCommits	Git commits for the current buffer
+"
+":GFiles [OPTS]	Git files (git ls-files)
+":GFiles?	Git files (git status)
+"
 ":Commands	Commands
 ":Maps	Normal mode mappings
-":Helptags	Help tags 1
-":Filetypes	File types
+nnoremap mm :Marks<CR>
+":Marks	Marks
+":Colors	Color schemes
+
+
+"fzf或者内置终端可以使用<C-\><C-n>回到norm模式，进行拷贝等操作

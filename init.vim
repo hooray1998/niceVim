@@ -39,6 +39,11 @@ LoadScript init/init-style.vim
 LoadScript init/init-keymaps.vim
 LoadScript init/menu.vim
 LoadScript init/markdown.vim
+LoadScript init/coc.vim
 
-autocmd FileType vim nnoremap <C-r> :so %<CR>
+autocmd FileType vim nnoremap <buffer> R :so %<CR>
 colorscheme onedark
+" started In Diff-Mode set diffexpr (plugin not loaded yet)
+if &diff
+    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+endif
