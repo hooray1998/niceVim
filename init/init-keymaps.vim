@@ -17,7 +17,6 @@
 
 let mapleader="\<Space>"
 
-
 "----------------------------------------------------------------------
 " INSERT 模式下使用 EMACS 键位
 "----------------------------------------------------------------------
@@ -32,6 +31,8 @@ inoremap <c-_> <c-k>
 " 使用 SecureCRT/XShell 等终端软件需设置：Backspace sends delete
 " 详见：http://www.skywind.me/blog/archives/2021
 "----------------------------------------------------------------------
+nnoremap <C-j> <down>
+nnoremap <C-k> <up>
 inoremap <C-h> <left>
 inoremap <C-j> <down>
 inoremap <C-k> <up>
@@ -67,60 +68,6 @@ noremap <silent><leader>8 8gt<cr>
 noremap <silent><leader>9 9gt<cr>
 noremap <silent><leader>0 10gt<cr>
 
-
-
-"----------------------------------------------------------------------
-" ALT+N 切换 tab
-"----------------------------------------------------------------------
-"noremap <silent><m-1> :tabn 1<cr>
-"noremap <silent><m-2> :tabn 2<cr>
-"noremap <silent><m-3> :tabn 3<cr>
-"noremap <silent><m-4> :tabn 4<cr>
-"noremap <silent><m-5> :tabn 5<cr>
-"noremap <silent><m-6> :tabn 6<cr>
-"noremap <silent><m-7> :tabn 7<cr>
-"noremap <silent><m-8> :tabn 8<cr>
-"noremap <silent><m-9> :tabn 9<cr>
-"noremap <silent><m-0> :tabn 10<cr>
-"inoremap <silent><m-1> <ESC>:tabn 1<cr>
-"inoremap <silent><m-2> <ESC>:tabn 2<cr>
-"inoremap <silent><m-3> <ESC>:tabn 3<cr>
-"inoremap <silent><m-4> <ESC>:tabn 4<cr>
-"inoremap <silent><m-5> <ESC>:tabn 5<cr>
-"inoremap <silent><m-6> <ESC>:tabn 6<cr>
-"inoremap <silent><m-7> <ESC>:tabn 7<cr>
-"inoremap <silent><m-8> <ESC>:tabn 8<cr>
-"inoremap <silent><m-9> <ESC>:tabn 9<cr>
-"inoremap <silent><m-0> <ESC>:tabn 10<cr>
-
-
-" MacVim 允许 CMD+数字键快速切换标签
-"if has("gui_macvim")
-    "set macmeta
-    "noremap <silent><d-1> :tabn 1<cr>
-    "noremap <silent><d-2> :tabn 2<cr>
-    "noremap <silent><d-3> :tabn 3<cr>
-    "noremap <silent><d-4> :tabn 4<cr>
-    "noremap <silent><d-5> :tabn 5<cr>
-    "noremap <silent><d-6> :tabn 6<cr>
-    "noremap <silent><d-7> :tabn 7<cr>
-    "noremap <silent><d-8> :tabn 8<cr>
-    "noremap <silent><d-9> :tabn 9<cr>
-    "noremap <silent><d-0> :tabn 10<cr>
-    "inoremap <silent><d-1> <ESC>:tabn 1<cr>
-    "inoremap <silent><d-2> <ESC>:tabn 2<cr>
-    "inoremap <silent><d-3> <ESC>:tabn 3<cr>
-    "inoremap <silent><d-4> <ESC>:tabn 4<cr>
-    "inoremap <silent><d-5> <ESC>:tabn 5<cr>
-    "inoremap <silent><d-6> <ESC>:tabn 6<cr>
-    "inoremap <silent><d-7> <ESC>:tabn 7<cr>
-    "inoremap <silent><d-8> <ESC>:tabn 8<cr>
-    "inoremap <silent><d-9> <ESC>:tabn 9<cr>
-    "inoremap <silent><d-0> <ESC>:tabn 10<cr>
-"endif
-
-
-
 "----------------------------------------------------------------------
 " 缓存：插件 unimpaired 中定义了 [b, ]b 来切换缓存
 "----------------------------------------------------------------------
@@ -132,8 +79,6 @@ noremap <silent> ]j :bn<cr>
 " TAB：创建，关闭，上一个，下一个，左移，右移
 " 其实还可以用原生的 CTRL+PageUp, CTRL+PageDown 来切换标签
 "----------------------------------------------------------------------
-
-noremap <silent> <leader>tc :tabnew<cr>
 
 " 左移 tab
 function! Tab_MoveLeft()
@@ -151,8 +96,8 @@ function! Tab_MoveRight()
     endif
 endfunc
 
-noremap <silent><leader>tl :call Tab_MoveLeft()<cr>
-noremap <silent><leader>tr :call Tab_MoveRight()<cr>
+nnoremap <silent> <leader>tc :tabnew<cr>
+nnoremap <silent> <leader>tn :tabedit %<cr>:bn<cr>:tabpre<cr>
 noremap <silent><m-left> :call Tab_MoveLeft()<cr>
 noremap <silent><m-right> :call Tab_MoveRight()<cr>
 
@@ -228,7 +173,7 @@ let g:asyncrun_bell = 1
 nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
 
 " F9 编译 C/C++ 文件
-nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+"nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 
 " F5 运行文件
 nnoremap <silent> <leader>r :call ExecuteFile()<cr>
@@ -236,27 +181,15 @@ nnoremap <silent> <leader>r :call ExecuteFile()<cr>
 " F7 编译项目
 "nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
 
-"" F8 运行项目
-"nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
-
-"" F6 测试项目
-"nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
-
-"" 更新 cmake
-"nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
-
-" Windows 下支持直接打开新 cmd 窗口运行
-if has('win32') || has('win64')
-    nnoremap <silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>
-endif
-
 
 "----------------------------------------------------------------------
 " F5 运行当前文件：根据文件类型判断方法，并且输出到 quickfix 窗口
 "----------------------------------------------------------------------
 function! ExecuteFile()
     let cmd = ''
-    if index(['c', 'cpp', 'rs', 'go'], &ft) >= 0
+    if index(['c', 'cpp'], &ft) >= 0
+        let cmd =  'gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && "$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
+    elseif index(['c', 'cpp', 'rs', 'go'], &ft) >= 0
         " native 语言，把当前文件名去掉扩展名后作为可执行运行
         " 写全路径名是因为后面 -cwd=? 会改变运行时的当前路径，所以写全路径
         " 加双引号是为了避免路径中包含空格
@@ -282,7 +215,15 @@ function! ExecuteFile()
         let cmd = 'cscript -nologo "$(VIM_FILEPATH)"'
     elseif &ft == 'sh'
         let cmd = 'chmod +x "$(VIM_FILEPATH)" && bash "$(VIM_FILEPATH)"'
+    elseif &ft == 'vim'
+        silent! exec 'so %'
+        echom "Source current script"
+        return
+    elseif &ft == 'markdown'
+        silent! exec 'MarkdownPreview'
+        return
     else
+        echom "Current filetype is'n support."
         return
     endif
     " Windows 下打开新的窗口 (-mode=4) 运行程序，其他系统在 quickfix 运行
@@ -295,10 +236,6 @@ function! ExecuteFile()
         exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=0 '. cmd
     endif
 endfunc
-
-
-
-
 
 nnoremap <leader>e :exit<CR>
 nnoremap <leader>w :w<CR>
@@ -319,19 +256,5 @@ nnoremap <silent> <C-l> :<C-u>nohlsearch<CR>:cclose<CR><C-l>
 
 "快捷复制粘贴至系统
 nnoremap <C-a> mmggVG"+y`m<CR>
-
-nnoremap <leader>tn :tabedit %<cr>:bn<cr>:tabpre<cr>
+"*搜索增强
 vnoremap * y/\V<C-R>"<CR>
-nnoremap <silent><m-7> :call TodoToggle()<CR>
-inoremap <silent><m-7> <ESC>:call TodoToggle()<CR>
-function TodoToggle()
-    if &ft == 'tasks'
-        exec ":wincmd w | bd *.todo"
-    else
-        exec ":vsplit /media/Document/my.todo"
-    endif
-endfunc
-noremap <silent><m-8> :call quickmenu#toggle(3)<cr>
-noremap <silent><m-9> :call quickmenu#toggle(0)<cr>
-noremap <silent><m-0> :call quickmenu#toggle(1)<cr>
-"noremap <silent><m-8> :call quickmenu#toggle(2)<cr>

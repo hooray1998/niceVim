@@ -10,27 +10,8 @@ if exists("b:loaded_tasks")
 endif
 let b:loaded_tasks = 1
 
-" MAPPINGS
-" 改变缩进Ctrl-d/Ctrl-t改变缩进
-inoremap <buffer> <Tab> 
-inoremap <buffer> <S-Tab> 
-" 编辑下一行
 nnoremap <buffer> ` o
 nnoremap <buffer> ~ O
-inoremap <buffer> <Enter> <ESC>:call NewTask(1)<cr>
-nnoremap <buffer> o :call NewTask(1)<cr>
-nnoremap <buffer> O :call NewTask(-1)<cr>
-nnoremap <buffer> <Enter> :call TaskComplete()<cr>
-nnoremap <buffer> <BS> :call TaskCancel()<cr>
-nnoremap <buffer> <C-l> m6:call TasksArchive()<cr>'6
-
-nnoremap <buffer> * :call TaskStar()<cr>
-nnoremap <buffer> <C-j> /:\s*$<cr>:<C-u>set nohlsearch<cr>
-nnoremap <buffer> <C-k> ?:\s*$<cr>:<C-u>set nohlsearch<cr>
-
-"setlocal foldlevel=2        " 设置折叠层数为
-nnoremap <buffer> ; @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
-                            " 用空格键来开关折叠
 
 " GLOBALS
 

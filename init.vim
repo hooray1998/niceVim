@@ -33,17 +33,18 @@ set rtp+=~/.vim
 
 LoadScript init/init-basic.vim
 LoadScript init/init-config.vim
-LoadScript init/init-tabsize.vim
-LoadScript init/init-plugins.vim
 LoadScript init/init-style.vim
-LoadScript init/init-keymaps.vim
+LoadScript init/init-plugins.vim
+
+LoadScript init/enhance-search.vim
+LoadScript init/enhance-symbol.vim
+LoadScript init/enhance-lint.vim
+LoadScript init/enhance-markdown.vim
+LoadScript init/enhance-ui.vim
 LoadScript init/menu.vim
-LoadScript init/markdown.vim
 LoadScript init/coc.vim
 
-autocmd FileType vim nnoremap <buffer> R :so %<CR>
+LoadScript init/init-keymaps.vim
+LoadScript init/plugin-keymaps.vim
+
 colorscheme onedark
-" started In Diff-Mode set diffexpr (plugin not loaded yet)
-if &diff
-    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
-endif

@@ -316,38 +316,3 @@ function! EnableGutentags()
         echom "已禁用:gutentags"
     endif
 endfunc
-
-":Files [PATH]	Files (similar to :FZF)
-":Buffers	Open buffers
-"
-":Ag [PATTERN]	ag search result (ALT-A to select all, ALT-D to deselect all)
-":Rg [PATTERN]	rg search result (ALT-A to select all, ALT-D to deselect all)
-":Tags [QUERY]	Tags in the project (ctags -R)
-":BTags [QUERY]	Tags in the current buffer
-"
-"
-":History:	Command history
-cnoremap <c-r>: History:<CR>
-":History/	Search history
-cnoremap <c-r>/ History/<CR>
-
-"<Space>l  => BLines
-"<Space>L  => Lines
-":Lines [QUERY]	Lines in loaded buffers
-":BLines [QUERY]	Lines in the current buffer
-"
-"
-":Commits	Git commits (requires fugitive.vim)
-":BCommits	Git commits for the current buffer
-"
-":GFiles [OPTS]	Git files (git ls-files)
-":GFiles?	Git files (git status)
-"
-":Commands	Commands
-":Maps	Normal mode mappings
-nnoremap mm :Marks<CR>
-":Marks	Marks
-":Colors	Color schemes
-
-
-"fzf或者内置终端可以使用<C-\><C-n>回到norm模式，进行拷贝等操作

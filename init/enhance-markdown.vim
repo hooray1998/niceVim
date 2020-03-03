@@ -13,7 +13,7 @@
 
 
 " 更改折叠方式，全部只占一行
-let g:vim_markdown_folding_style_pythonic=3
+"let g:vim_markdown_folding_style_pythonic=1
 " 从二级标题开始折叠
 let g:vim_markdown_folding_level = 9
 " Toc的quickfix窗口大小自动调整

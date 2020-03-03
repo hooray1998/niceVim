@@ -196,6 +196,29 @@ set wildignore+=*.gba,*.sfc,*.078,*.nds,*.smd,*.smc
 set wildignore+=*.linux2,*.win32,*.darwin,*.freebsd,*.linux,*.android
 
 
+"==================================================================
+" Title: Tabsize
+"==================================================================
+
+" 设置缩进宽度
+set sw=4
+" 设置 TAB 宽度
+set ts=4
+" 禁止展开 tab (noexpandtab)
+set expandtab
+" 如果后面设置了 expandtab 那么展开 tab 为多少字符
+set softtabstop=4
+augroup PythonTab
+    au!
+    " 如果你需要 python 里用 tab，那么反注释下面这行字，否则vim会在打开py文件
+    " 时自动设置成空格缩进。
+    "au FileType python setlocal shiftwidth=4 tabstop=4 noexpandtab
+augroup END
+
+
+"==================================================================
+" Title: 长行折叠
+"==================================================================
 
 set wrap "长行折叠"
 set linebreak "行根据breakat打断"
@@ -205,4 +228,14 @@ set showbreak=->
 set breakindent "打算后保持缩进"
 "noremap <silent> <expr> j (v:count == 0? 'gj':'j')
 "noremap <silent> <expr> k (v:count == 0? 'gk':'k')
+
+
+
+"==================================================================
+" Title: 其他
+"==================================================================
+
 set shell=/bin/bash
+set switchbuf=newtab "新的tab打开预览项
+
+
