@@ -1,6 +1,5 @@
 # NiceVim文档
 
-
 ## 环境配置
 
 ### Python
@@ -33,9 +32,9 @@ make install # may require extra privileges depending on where to install
 ### Gtags
 
 ```sh
-wget https://ftp.gnu.org/pub/gnu/global/global-6.6.tar.gz
-tar xvf global-6.6.tar.gz
-cd global-6.6
+wget http://tamacom.com/global/global-6.6.4.tar.gz
+tar xvf global-6.6.4.tar.gz
+cd global-6.6.4
 ./configure --with-sqlite3
 make -j4
 sudo make install
@@ -73,7 +72,25 @@ install rg
 ```sh
 :PlugInstall
 ```
+
 ## QuickStart
+
+### 文件/文本搜索
+
+| 命令  | 功能                           |
+|-------|--------------------------------|
+| `C-p` | fzf搜索当前项目管理文件(GFile) |
+| `C-n` | 搜索最近文件                   |
+| `m-/` | 搜索当前文件                   |
+| `m-?` | 搜索所有Buffer                 |
+
+**Ctrl-t 在tab中打开**
+
+### 递归搜索文本
+
+| `A-*`    | 搜索当前单词   |
+| `Rg`     | Leaderf rg搜索 |
+| `CtrlSF` | 搜索文本       |
 
 ### 文本对象
 
@@ -84,25 +101,6 @@ install rg
 | 函数文本对象 | if/af | 支持 c/c++/vim/java/python                 |
 | 参数文本对象 | i,/a, | 包括参数或者列表元素                       |
 | uri/url对象  | iu/au | 表示                                       |
-
-### 文件搜索
-
-| 命令  | 功能                           |
-|-------|--------------------------------|
-| `C-p` | fzf搜索当前项目管理文件(GFile) |
-| `C-n` | 搜索最近文件                   |
-| `A-1` | coc文件树                      |
-| `-`   | 文件管理器                     |
-
-### 文本检索
-
-| 命令     | 功能           |
-|----------|----------------|
-| `A-*`    | 搜索当前单词   |
-| `Rg`     | Leaderf rg搜索 |
-| `CtrlSF` | 搜索文本       |
-| `S-l`      | 搜索当前文件   |
-| `S-L`      | 搜索所有Buffer |
 
 ### 符号搜索
 
@@ -115,7 +113,7 @@ install rg
 | `F3`   | 搜索当前符号并右侧预览A-d,A-u翻动 |
 | `K/F4` | 显示函数签名或帮助                |
 
-## 注释,代码美化
+### 注释,代码美化
 
 | 命令       | 功能       |
 |------------|------------|
@@ -125,7 +123,7 @@ install rg
 
 设置正确的wrap 和 paste  pastetoggle
 
-## 定义和引用
+### 定义和引用
 
 | 命令         | 功能                                  |
 |--------------|---------------------------------------|
@@ -137,16 +135,17 @@ install rg
 | `<leader>gf` | 查找光标下的文件                      |
 | `<leader>gi` | 查找哪些文件 include 了本文件         |
 
-**如果在quickfix窗口中,  按p预览,P关闭, M-u/d 上下移动 Enter进入编辑**
+### 窗口管理
 
-**ctags可以查到的定义用F3 F4比较方便**
-
-| 命令                    | 功能         |
-|-------------------------|--------------|
-| PreviewTag              | 连续切换符号 |
-| PreviewGoto [tabe/edit] | 进入编辑     |
-| M-u/M-d                 | 上下预览     |
-| C-w o                   | 删除预览窗口 |
+| 命令         | 功能          |
+|--------------|---------------|
+| S+ 1~n       | Tab跳转       |
+| Alt + 1      | coc文件管理器 |
+| Alt + 2      | 符号列表      |
+| Alt + 3      | Undo历史      |
+| Alt + 7      | Todo显示      |
+| Alt + 8-0    | 帮助菜单      |
+| SSave! +name | 会话保存      |
 
 ### Git
 
@@ -177,19 +176,6 @@ install rg
 | gI    | 进入ignore文件         |
 | Gclog | 查看某些文件的提交记录 |
 
-### 窗口管理
-
-| 命令         | 功能          |
-|--------------|---------------|
-| S+ 1~n       | Tab跳转       |
-| Alt + 1      | coc文件管理器 |
-| Alt + 2      | 符号列表      |
-| Alt + 3      | Undo历史      |
-| Alt + 7      | Todo显示      |
-| Alt + 8-0    | 帮助菜单      |
-| SSave! +name | 会话保存      |
-
-
 ### Markdown
 
 - MarkdownPreview
@@ -207,7 +193,6 @@ install rg
 
 ### 其他命令
 
-
 | 命令      | 功能       |
 |-----------|------------|
 | A-;       | Command    |
@@ -220,4 +205,32 @@ install rg
 | 可视模式f | 翻译       |
 | C-f{char} | 快速跳转   |
 | F12       | 专注模式   |
+
+### 本地Gist
+
+| 命令 | 功能     |
+|------|----------|
+| c-n  | 创建gist |
+| Gist | 搜索gist |
+
+### 多光标
+
+vim-visual-multi
+It's called vim-visual-multi in analogy with visual-block, but the plugin works mostly from normal mode.
+
+Basic usage:
+
+select words with Ctrl-N (like Ctrl-d in Sublime Text/VS Code)
+create cursors vertically with Ctrl-Down/Ctrl-Up
+select one character at a time with Shift-Arrows
+press n/N to get next/previous occurrence
+press [/] to select next/previous cursor
+press q to skip current and get next occurrence
+press Q to remove current cursor/selection
+start insert mode with i,a,I,A
+Two main modes:
+
+in cursor mode commands work as they would in normal mode
+in extend mode commands work as they would in visual mode
+press Tab to switch between «cursor» and «extend» mode
 

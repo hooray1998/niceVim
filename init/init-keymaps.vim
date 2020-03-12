@@ -188,7 +188,7 @@ nnoremap <silent> <leader>r :call ExecuteFile()<cr>
 function! ExecuteFile()
     let cmd = ''
     if index(['c', 'cpp'], &ft) >= 0
-        let cmd =  'gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && "$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
+        let cmd =  'g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && "$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
     elseif index(['c', 'cpp', 'rs', 'go'], &ft) >= 0
         " native 语言，把当前文件名去掉扩展名后作为可执行运行
         " 写全路径名是因为后面 -cwd=? 会改变运行时的当前路径，所以写全路径
@@ -238,13 +238,13 @@ function! ExecuteFile()
 endfunc
 
 nnoremap <leader>e :exit<CR>
-nnoremap <leader>w :w<CR>
+    nnoremap <leader>w :w<CR>
 nmap L $
-nmap H ^
+nmap H 0^
 vmap L $h
-vmap H ^
+vmap H 0^
 map L $
-map H ^
+map H 0^
 "映射显示当前文件目录的快捷键"
 if has('win32') || has('win64')
     cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'\' : '%%'
@@ -258,3 +258,5 @@ nnoremap <silent> <C-l> :<C-u>nohlsearch<CR>:cclose<CR><C-l>
 nnoremap <C-a> mmggVG"+y`m<CR>
 "*搜索增强
 vnoremap * y/\V<C-R>"<CR>
+
+cmap w!! %!sudo tee>/dev/null %

@@ -220,8 +220,8 @@ augroup END
 " Title: 长行折叠
 "==================================================================
 
-set wrap "长行折叠"
-set linebreak "行根据breakat打断"
+autocmd FileType markdown,tasks set wrap "长行折叠"
+" set linebreak "行根据breakat打断"
 set breakat-=_ "打断符号, 去掉_"
 set breakat-=\  "打断符号, 去掉 "
 set showbreak=->

@@ -43,8 +43,11 @@ LoadScript init/enhance-markdown.vim
 LoadScript init/enhance-ui.vim
 LoadScript init/menu.vim
 LoadScript init/coc.vim
+LoadScript init/gist.vim
 
 LoadScript init/init-keymaps.vim
 LoadScript init/plugin-keymaps.vim
 
+" colorscheme xcodedark
 colorscheme onedark
+" colorscheme edge

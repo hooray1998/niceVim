@@ -1,48 +1,44 @@
-
 "==================================================================
-" Title: 自动更新数据库(universal ctags && gtags)
+" Title: Leaderf gtags 真的nice，爱死了
 "==================================================================
+" don't show the help in normal mode
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
 
-let $GTAGSCONF = '/usr/local/share/gtags/gtags.conf'
-let $GTAGSLABEL = 'native-pygments'
+" let g:Lf_WildIgnore = {
+        " \ 'dir': [],
+        " \ 'file': ['*.vim']
+        " \}
 
-autocmd BufEnter *.c,*.cpp exec "let g:gutentags_enabled=1"
-autocmd BufLeave *.c,*.cpp exec "let g:gutentags_enabled=0"
+let g:Lf_GtagsAutoGenerate = 1
+let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
+let g:Lf_RootMarkers = ['.git', '.svn', '.root']
+" 插入模式使用Ctrl-p预览即可, Ctrl-D/U 上下滚动
+let g:Lf_CommandMap = {'<C-Up>': ['<C-U>'], '<C-Down>': ['<C-D>']}
+let g:Lf_MruMaxFile = 50
+let g:Lf_PreviewResult = {
+        \ 'File': 0,
+        \ 'Buffer': 0,
+        \ 'Mru': 0,
+        \ 'Tag': 0,
+        \ 'BufTag': 0,
+        \ 'Function': 0,
+        \ 'Line': 0,
+        \ 'Colorscheme': 1,
+        \ 'Rg': 0,
+        \ 'Gtags': 0
+        \}
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_PopupWidth = 0.75
+let g:Lf_PopupHeight = 0.4
+let g:Lf_PopupPosition = [ &lines * 1 / 2,  0]
+let g:Lf_StlSeparator = { 'left': "", 'right': "" }
 
-let g:gutentags_define_advanced_commands = 1 "启用更多功能
-let g:gutentags_enabled = 0 " 使用GutentagsToggleEnable启用
-let g:gutentags_dont_load = 0
-let g:gutentags_plus_nomap = 1
-
-" 设定项目目录标志：除了 .git/.svn 外，还有 .root 文件
-let g:gutentags_project_root = ['.root']
-
-" 默认生成的数据文件集中到 ~/.cache/tags 避免污染项目目录，好清理
-let g:gutentags_cache_dir = expand('~/.cache/tags')
-
-let g:gutentags_exclude_filetypes = ['json', 'markdown', 'txt', 'vim']
-" 默认禁用自动生成
-let g:gutentags_modules = []
-
-" 如果有 ctags 可执行就允许动态生成 ctags 文件
-if executable('ctags')
-    let g:gutentags_modules += ['ctags']
-endif
-
-" 如果有 gtags 可执行就允许动态生成 gtags 数据库
-if executable('gtags') && executable('gtags-cscope')
-    let g:gutentags_modules += ['gtags_cscope']
-endif
-
-" 设置 ctags 的参数
-let g:gutentags_ctags_tagfile = '.tags'
-let g:gutentags_ctags_extra_args = []
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
-let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
-let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-
-" 使用 universal-ctags 的话需要下面这行，请反注释
-let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
-
-" 禁止 gutentags 自动链接 gtags 数据库
-let g:gutentags_auto_add_gtags_cscope = 1
+let g:Lf_WildIgnore = {
+        \ 'dir': ['.svn','.git','.hg'],
+        \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+        \}

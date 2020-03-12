@@ -1,4 +1,3 @@
-
 "==================================================================
 " Title: 文件/文本检索
 "==================================================================
@@ -6,26 +5,28 @@
 
 "|GFiles [OPTS]|Git files (git ls-files)|
 "|GFiles?|Git files (git status)|
-nnoremap <silent> <Space>f :Files<CR>
+" nnoremap <silent> <Space>f :Files<CR>
+" nnoremap <silent> <Space>f :LeaderfFile<CR>
 nnoremap <silent> <Space>b :Buffers<CR>
-nnoremap <silent> <Space>l :BLines<CR>
-nnoremap <silent> <Space>L :Lines<CR>
+" nnoremap <silent> <Space>l :BLines<CR>
+nnoremap <silent> <c-n> :LeaderfMru<cr>
+nnoremap <silent> <m-/> :LeaderfLine<CR>
+nnoremap <silent> <m-?> :LeaderfLineAll<CR>
+" nnoremap <silent> <Space>L :Lines<CR>
 
-let g:Lf_ShortcutF = 'c-p'
-"let g:Lf_ShortcutB = '<leader>b'
-noremap <c-n> :LeaderfMru<cr>
 
 noremap <m-*> :<C-U><C-R>=printf("Leaderf rg %s ", expand("<cword>"))<CR><CR>
-command! -nargs=? Rg :Leaderf rg <f-args>
+command! -nargs=* Rg :Leaderf rg <args>
 
 "==================================================================
 " Title: 定义、引用、符号
 "==================================================================
 
 
-noremap <m-m> :LeaderfFunction<cr>
-noremap <m-p> :LeaderfBufTag<cr>
-noremap <m-P> :LeaderfTag<cr>
+nnoremap <c-p> :LeaderfFile<cr>
+nnoremap <m-m> :LeaderfFunction<cr>
+nnoremap <m-p> :LeaderfBufTag<cr>
+nnoremap <m-P> :Leaderf gtags<cr>
 
 nnoremap <silent> <m-up> :cp<CR>
 nnoremap <silent> <m-down> :cn<CR>
@@ -49,45 +50,34 @@ noremap <F4> :PreviewGoto tabe<cr>
 "激活补全
 inoremap <silent><expr> <c-n> coc#refresh()
 function! GoDefinition()
-    if &ft == 'python'
+    if index(['python', 'go', 'vim'], &ft) >= 0
         exec "call CocAction('jumpDefinition')"
-    "elseif index(['c', 'cpp'], &ft) >= 0
     else
-        exec "GscopeFind g ".expand('<cword>')
-        "echom "Current filetype is'n support to find definition."
-        "return
+        exec 'Leaderf gtags -d '.expand("<cword>").' --auto-jump --nowrap'
     endif
 endfunc
 function! GoReferences()
-    if &ft == 'python'
+    if index(['python', 'go', 'vim'], &ft) >= 0
         exec "call CocAction('jumpReferences')"
-    "elseif index(['c', 'cpp'], &ft) >= 0
     else
-        " TODO: 或者使用s查询被调用的函数
-        exec "GscopeFind s ".expand('<cword>')
-        "noremap <silent> <space>gc :GscopeFind c <C-R><C-W><cr>
-        "echom "Current filetype is'n support to find references."
-        "return
+        exec 'Leaderf gtags -r '.expand("<cword>").' --auto-jump --nowrap'
     endif
 endfunc
 
-" GoTo code navigation.
-"nmap <silent> gd <Plug>(coc-definition)
+noremap <F10> :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+
 nmap <silent> gd :call GoDefinition()<CR>
 nmap <silent> gr :call GoReferences()<CR>
-"nmap <silent> gr <Plug>(coc-references)
-"noremap <silent> <space>gs :GscopeFind s <C-R><C-W><cr>
-"noremap <silent> <space>gd 
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gy <Plug>(coc-type-definition)
 
 " Note: 查询当前文本符号
-noremap <silent> <space>gt :GscopeFind t <C-R><C-W><cr>
-noremap <silent> <space>ge :GscopeFind e <C-R><C-W><cr>
+" noremap <silent> <space>gt :GscopeFind t <C-R><C-W><cr>
+" noremap <silent> <space>ge :GscopeFind e <C-R><C-W><cr>
 
 " Note: 查询当前文件
-noremap <silent> <space>gf :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
-noremap <silent> <space>gi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
+" noremap <silent> <space>gf :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
+" noremap <silent> <space>gi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
 
 "==================================================================
 " Title: Coc修改意见，格式化，改名，函数文档
@@ -120,9 +110,10 @@ function! s:show_documentation()
   "if (index(['vim','help'], &filetype) >= 0)
     "execute 'h '.expand('<cword>')
   if (index(['c', 'cpp'], &filetype) >= 0)
-    execute 'PreviewSignature'
+    " execute 'PreviewSignature'
   else
-    call CocAction('doHover')
+    call CocActionAsync('doHover')
+    " call CocAction('doHover')
   endif
 endfunction
 let g:markdown_fenced_languages = [
@@ -203,9 +194,9 @@ nnoremap mm :Marks<CR>
 ":Colors	Color schemes
 
 ":History:	Command history
-cnoremap <c-f>: History:<CR>
+cnoremap <c-f>: <ESC>:History:<CR>
 ":History/	Search history
-cnoremap <c-f>/ History/<CR>
+cnoremap <c-f>/ <ESC>:History/<CR>
 
 "fzf或者内置终端可以使用<C-\><C-n>回到norm模式，进行拷贝等操作
 "
@@ -219,12 +210,34 @@ cnoremap <c-f>/ History/<CR>
 " 使用 <space>ha 清除 errormarker 标注的错误
 noremap <silent><space>ha :RemoveErrorMarkers<cr>
 
-autocmd Filetype markdown nnoremap <silent> <buffer> <F12> :SignifyToggle \| Goyo<CR>
+let g:quiet_mode = 0
+function! QuietMode() abort
+    if g:quiet_mode == 0
+        exec "SignifyDisable"
+        exec "Goyo"
+        exec "CocDisable"
+        exec "ApcEnable"
+    else
+        exec "SignifyEnable"
+        exec "Goyo"
+        exec "CocEnable"
+        exec "ApcDisable"
+    endif
+    let g:quiet_mode = !g:quiet_mode
+endfunction
+autocmd Filetype markdown nnoremap <silent> <buffer> <F12> :call QuietMode()<CR>
 autocmd FileType markdown nnoremap <silent> <buffer> <C-t> :TableModeRealign<CR>
 
-let g:EasyMotion_use_upper = 1
+ " type `l` and match `l`&`L`
 let g:EasyMotion_smartcase = 1
+" Smartsign (type `3` and match `3`&`#`)
 let g:EasyMotion_use_smartsign_us = 1
-nmap <C-f> <Plug>(easymotion-s)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+nmap <c-f> <Plug>(easymotion-overwin-f)
+
+
+command! -nargs=0 TranslatePopup CocCommand translator.popup
+command! -nargs=0 Translate CocCommand translator.echo
+command! -nargs=0 Dict CocList translators
+

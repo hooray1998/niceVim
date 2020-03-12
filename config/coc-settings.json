@@ -1,15 +1,15 @@
 {
   "languageserver": {
-    "ccls": {
-      "command": "ccls",
-      "filetypes": ["c", "cpp", "objc", "objcpp"],
-      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
-      "initializationOptions": {
-         "cache": {
-           "directory": "/tmp/ccls"
-         }
-       }
-    },
+//    "ccls": {
+//      "command": "ccls",
+//      "filetypes": ["c", "cpp", "objc", "objcpp"],
+//      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+//      "initializationOptions": {
+//         "cache": {
+//           "directory": "/tmp/ccls"
+//         }
+//       }
+//    },
     "bash": {
       "command": "bash-language-server",
       "args": ["start"],
@@ -124,5 +124,44 @@
     "^\\s*\\\""
   ],
   "gitcommit": []
-}
+},
+"cSpell.userWords": [
+  "Gscope",
+  "Gtags",
+  "Gtagsconf",
+  "Gtagslabel",
+  "Leaderf",
+  "Shougo",
+  "Tabularize",
+  "Yggdroot",
+  "coef",
+  "ctrlsf",
+  "deoplete",
+  "dhruvasagar",
+  "dirvish",
+  "dyng",
+  "flazz",
+  "gista",
+  "gutentags",
+  "honza",
+  "hotoo",
+  "iamcco",
+  "jceb",
+  "junegunn",
+  "justinmk",
+  "loadtxt",
+  "mathjax",
+  "mattn",
+  "mhinz",
+  "neoclide",
+  "nvim",
+  "octol",
+  "pprovost",
+  "pygments",
+  "sgur",
+  "startify",
+  "tbastos",
+  "terryma",
+  "vpnf"
+],
 }
