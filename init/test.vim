@@ -9,13 +9,10 @@ call quickui#menu#install('&File', [
             \ [ '-','' ],
             \ [ '&Save Session','SSave!', '保存会话' ],
             \ ])
-call quickui#menu#install('&Development', [
-            \ [ '&Apc', '', '词典补全'],
-            \ [ '&Task', 'Leaderf --nowrap task', '任务列表' ],
-            \ [ '&Execute', 'AsyncTask file-run', '执行代码' ],
-            \ [ '&Switch H/S', 'echo "none"', '头文件切换' ],
+call quickui#menu#install('&Mode', [
+            \ [ '&Goyo', 'Goyo', '专注模式'],
+            \ [ '&Find', 'echo 3', 'help 3' ],
             \ ])
-
 
 function! EnableGutentags()
     exec ":GutentagsToggleEnabled"
@@ -25,42 +22,28 @@ function! EnableGutentags()
         echom "已禁用:gutentags"
     endif
 endfunc
-call quickui#menu#install('&Git' ,  [
-            \ [ 'Git &add'       ,  'Gwrite'      ,  '增加到暂存区'],
-            \ [ 'Git &diff'      ,  'Gvdiffsplit' ,  '文件对比' ],
-            \ [ 'Git &read'      ,  'Gread'       ,  '恢复到最近的提交' ],
-            \ [ 'Git &blame'     ,  'Gblame'      ,  '文件问责' ],
-            \ [ 'Git &grep'      ,  'Ggrep'       ,  'Git文件搜索' ],
-            \ [ 'Git &commit'    ,  'BCommits'    ,  '本文件相关的提交' ],
-            \ [ 'Git l&og'       ,  'Gclog'       ,  '提交记录' ],
-            \ [ '&Git'           ,  'G'           ,  'fugitive' ],
+| Gblame   | 查看每行的最新修改是什么时候               |
+| Gwrite   | 增加到暂存区                               |
+| Gvdiff   | 与最近的提交比较                           |
+| Gread    | 放弃修改恢复到最近的一次提交或暂存区的内容 |
+| Gmove    | 移除文件并重命名缓存区                     |
+| Ggrep    | 搜索git文件                                |
+| BCommits | 查看当前文件所有提交                       |
+call quickui#menu#install('&Git', [
+            \ [ 'Git &add', 'Gwrite', '增加到暂存区'],
+            \ [ 'Git &diff', 'Gvdiffsplit', '文件对比' ],
+            \ [ 'Git &blame', 'Gblame', '文件问责' ],
+            \ [ 'Git &grep', 'Ggrep', 'Git文件搜索' ],
+            \ [ 'Git &commit', 'BCommits', '本文件相关的提交' ],
+            \ [ '&Git', 'G', 'fugitive' ],
             \ ])
 " script inside %{...} will be evaluated and expanded in the string
 call quickui#menu#install("&Option", [
             \ ['Set &Spell %{&spell? "Off":"On"}', 'set spell!'],
             \ ['Set &Cursor Line %{&cursorline? "Off":"On"}', 'set cursorline!'],
             \ ['Set &Paste %{&paste? "Off":"On"}', 'set paste!'],
-            \ ['&Goyo', 'call QuietMode()', '专注模式'],
-            \ ['Turn &Gutentags %{get(g:, "gutentags_enabled")==1? "Off":"On"}', 'EnableGutentags'],
-            \ ['Toggle H&iPairs', 'HiPairsToggle'],
-            \ ['Turn Task &Output %{g:asynctasks_term_pos=="right"? "Hide":"Right"}', 'call ToggleOutputPos()'],
-            \ ['Task Output &Focus %{g:asynctasks_term_focus==1? "Off":"On"}', 'call ToggleOutputFocus()'],
+            \ ['Turn &gutentags', 'call EnableGutentags'],
             \ ])
-
-function! ToggleOutputPos()
-    if g:asynctasks_term_pos == "right"
-        let g:asynctasks_term_pos = "hide"
-    else
-        let g:asynctasks_term_pos = "right"
-    end
-endfunc
-function! ToggleOutputFocus()
-    if g:asynctasks_term_focus == 1
-        let g:asynctasks_term_focus = 0
-    else
-        let g:asynctasks_term_focus = 1
-    end
-endfunc
 
 " register HELP menu with weight 10000
 call quickui#menu#install('&Help', [
@@ -75,15 +58,9 @@ call quickui#menu#install('&Help', [
 
 " enable to display tips in the cmdline
 let g:quickui_show_tip = 1
-let g:quickui_border_style = 2
-let g:quickui_color_scheme = 'papercol dark'
-hi! QuickBG ctermfg=0 ctermbg=7 guifg=black guibg=gray
-" hi! QuickSel cterm=bold ctermfg=0 ctermbg=2 gui=bold guibg=brown guifg=gray
-" hi! QuickKey term=bold ctermfg=1 gui=bold guifg=#ff0000
-" hi! QuickOff ctermfg=59 guifg=#75715e
-" hi! QuickHelp ctermfg=247 guifg=#959173
+
 " hit space twice to open menu
-noremap <silent> <m-8> :call quickui#menu#open()<cr>
+noremap <m-8> :call quickui#menu#open()<cr><cr>
 
 " command! -nargs=0 TranslatePopup CocCommand translator.popup
 " command! -nargs=0 Translate CocCommand translator.echo

@@ -1,3 +1,4 @@
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "==================================================================
 " Title: Coc配置
@@ -42,20 +43,3 @@ augroup Smartf
   autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
   autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
 augroup end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

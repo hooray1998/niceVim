@@ -102,10 +102,6 @@
     "coc-actions.hideCursor": true,
     "coc-actions.showActionKind": true,
     "coc-actions.useCursorLine": false,
-"smartf.timeout": 2000,
-"smartf.jumpOnTrigger":true,
-"smartf.wordJump":true,
-"smartf.charactersIgnoreByNavigator":[],
 "zi.enable":true,
 "zi.patterns": {
   "": [],
@@ -158,10 +154,13 @@
   "octol",
   "pprovost",
   "pygments",
+  "quickui",
   "sgur",
   "startify",
   "tbastos",
   "terryma",
   "vpnf"
 ],
+    "explorer.icon.enableNerdfont":true,
+    "explorer.position":"floating",
 }

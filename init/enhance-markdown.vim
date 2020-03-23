@@ -1,4 +1,34 @@
+" TODO:注释掉syntax目录才能正确高亮
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+" 自动预览
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 'markdown' }
+" 数学公式支持
+Plug 'iamcco/mathjax-support-for-mkdp', { 'for': 'markdown' }
+" 表格对齐，使用命令 Tabularize
+Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
+" 中文文档美化
+Plug 'hotoo/pangu.vim', { 'for': 'markdown' }
+" 专注模式
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+"autocmd! User goyo.vim echom 'Goyo is now loaded!'
+" 表格模式
+Plug 'dhruvasagar/vim-table-mode', { 'for': ['markdown','vim']}
+" 代码块执行
+Plug 'gpanders/vim-medieval'
 
+Plug 'skywind3000/vim-auto-popmenu'
+Plug 'skywind3000/vim-dict'
+" enable this plugin for filetypes, '*' for all files.
+let g:apc_enable_ft = {'text':1, 'markdown':1}
+
+" source for dictionary, current or other loaded buffers, see ':help cpt'
+set cpt=.,k,w,b
+
+" don't select the first item.
+set completeopt=menu,menuone,noselect
+
+" suppress annoy messages.
+set shortmess+=c
 " 常用命令 Toc， TableFormat
 " gx：在与标准gx命令相同的浏览器中打开光标下的链接。<Plug>Markdown_OpenUrlUnderCursor
 " ge：打开Vim中光标下的链接进行编辑。对于相对降价链接很有用。<Plug>Markdown_EditUrlUnderCursor
@@ -136,7 +166,7 @@ augroup pscbindings
 augroup end
 
 
-"autocmd Filetype markdown map <leader>w yiWi[<esc>Ea](<esc>pa)
+"autocmd Filetype markdown map <space>w yiWi[<esc>Ea](<esc>pa)
 autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
 autocmd Filetype markdown inoremap <buffer> ,w <Esc>/ <++><CR>:nohlsearch<CR>"_c5l<CR>
 autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>
@@ -147,12 +177,12 @@ autocmd Filetype markdown inoremap <buffer> ,d `` <++><Esc>F`i
 autocmd Filetype markdown inoremap <buffer> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
 autocmd Filetype markdown inoremap <buffer> ,m - [ ] <Enter><++><ESC>kA
 autocmd Filetype markdown inoremap <buffer> ,p ![](<++>) <++><Esc>F[a
-autocmd Filetype markdown inoremap <buffer> ,a [](<++>) <++><Esc>F[a
+autocmd Filetype markdown inoremap <buffer> ,l [](<++>) <++><Esc>F[a
 autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><++><Esc>kA
 autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><++><Esc>kA
 autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><++><Esc>kA
 autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><++><Esc>kA
-autocmd Filetype markdown inoremap <buffer> ,l --------<Enter>
+autocmd Filetype markdown inoremap <buffer> ,- --------<Enter>
 
 "自定义 代码快捷输入
 "Markdown

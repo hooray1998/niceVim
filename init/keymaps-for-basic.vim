@@ -15,8 +15,6 @@
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
 
-let mapleader="\<Space>"
-
 "----------------------------------------------------------------------
 " INSERT 模式下使用 EMACS 键位
 "----------------------------------------------------------------------
@@ -31,6 +29,7 @@ inoremap <c-_> <c-k>
 " 使用 SecureCRT/XShell 等终端软件需设置：Backspace sends delete
 " 详见：http://www.skywind.me/blog/archives/2021
 "----------------------------------------------------------------------
+nnoremap <C-e> <c-u>
 nnoremap <C-j> <down>
 nnoremap <C-k> <up>
 inoremap <C-h> <left>
@@ -55,25 +54,50 @@ cnoremap <c-_> <c-k>
 
 
 "----------------------------------------------------------------------
-" <leader>+数字键 切换tab
+" <space>+数字键 切换tab
 "----------------------------------------------------------------------
-noremap <silent><leader>1 1gt<cr>
-noremap <silent><leader>2 2gt<cr>
-noremap <silent><leader>3 3gt<cr>
-noremap <silent><leader>4 4gt<cr>
-noremap <silent><leader>5 5gt<cr>
-noremap <silent><leader>6 6gt<cr>
-noremap <silent><leader>7 7gt<cr>
-noremap <silent><leader>8 8gt<cr>
-noremap <silent><leader>9 9gt<cr>
-noremap <silent><leader>0 10gt<cr>
+noremap <silent><space>1 1gt<cr>
+noremap <silent><space>2 2gt<cr>
+noremap <silent><space>3 3gt<cr>
+noremap <silent><space>4 4gt<cr>
+noremap <silent><space>5 5gt<cr>
+noremap <silent><space>6 6gt<cr>
+noremap <silent><space>7 7gt<cr>
+noremap <silent><space>8 8gt<cr>
+noremap <silent><space>9 9gt<cr>
+noremap <silent><space>0 10gt<cr>
 
-"----------------------------------------------------------------------
-" 缓存：插件 unimpaired 中定义了 [b, ]b 来切换缓存
-"----------------------------------------------------------------------
+"==================================================================
+" Title: 连续切换buffer或tab
+"==================================================================
+
 noremap <silent> [j :bp<cr>
 noremap <silent> ]j :bn<cr>
+noremap <tab>, gT
+noremap <tab>. gt
+" tab enhancement  替换之前的c-i/c-o
+noremap <silent><tab> <nop>
+noremap <silent><tab>f <c-i>
+noremap <silent><tab>b <c-o>
 
+noremap <tab>h <c-w>h
+noremap <tab>j <c-w>j
+noremap <tab>k <c-w>k
+noremap <tab>l <c-w>l
+
+noremap <tab>w <c-w>w
+noremap <tab>c <c-w>c
+
+noremap <tab>+ <c-w>+
+noremap <tab>- <c-w>-
+noremap <tab>< <c-w><
+noremap <tab>> <c-w>>
+noremap <tab>= <c-w>=
+
+noremap <tab>s <c-w>s
+noremap <tab>v <c-w>v
+noremap <tab>o <c-w>o
+noremap <tab><tab> <c-w><c-w>
 
 "----------------------------------------------------------------------
 " TAB：创建，关闭，上一个，下一个，左移，右移
@@ -96,8 +120,8 @@ function! Tab_MoveRight()
     endif
 endfunc
 
-nnoremap <silent> <leader>tc :tabnew<cr>
-nnoremap <silent> <leader>tn :tabedit %<cr>:bn<cr>:tabpre<cr>
+nnoremap <silent> <space>tc :tabnew<cr>
+nnoremap <silent> <space>tn :tabedit %<cr>:bn<cr>:tabpre<cr>
 noremap <silent><m-left> :call Tab_MoveLeft()<cr>
 noremap <silent><m-right> :call Tab_MoveRight()<cr>
 
@@ -169,76 +193,9 @@ let g:asyncrun_open = 6
 " 任务结束时候响铃提醒
 let g:asyncrun_bell = 1
 
-" 设置 F10 打开/关闭 Quickfix 窗口
-nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
 
-" F9 编译 C/C++ 文件
-"nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
-
-" F5 运行文件
-nnoremap <silent> <leader>r :call ExecuteFile()<cr>
-
-" F7 编译项目
-"nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
-
-
-"----------------------------------------------------------------------
-" F5 运行当前文件：根据文件类型判断方法，并且输出到 quickfix 窗口
-"----------------------------------------------------------------------
-function! ExecuteFile()
-    let cmd = ''
-    if index(['c', 'cpp'], &ft) >= 0
-        let cmd =  'g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" && "$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
-    elseif index(['c', 'cpp', 'rs', 'go'], &ft) >= 0
-        " native 语言，把当前文件名去掉扩展名后作为可执行运行
-        " 写全路径名是因为后面 -cwd=? 会改变运行时的当前路径，所以写全路径
-        " 加双引号是为了避免路径中包含空格
-        let cmd = '"$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
-    elseif &ft == 'python'
-        let $PYTHONUNBUFFERED=1 " 关闭 python 缓存，实时看到输出
-        let cmd = 'python "$(VIM_FILEPATH)"'
-    elseif &ft == 'javascript'
-        let cmd = 'node "$(VIM_FILEPATH)"'
-    elseif &ft == 'perl'
-        let cmd = 'perl "$(VIM_FILEPATH)"'
-    elseif &ft == 'ruby'
-        let cmd = 'ruby "$(VIM_FILEPATH)"'
-    elseif &ft == 'php'
-        let cmd = 'php "$(VIM_FILEPATH)"'
-    elseif &ft == 'lua'
-        let cmd = 'lua "$(VIM_FILEPATH)"'
-    elseif &ft == 'zsh'
-        let cmd = 'zsh "$(VIM_FILEPATH)"'
-    elseif &ft == 'ps1'
-        let cmd = 'powershell -file "$(VIM_FILEPATH)"'
-    elseif &ft == 'vbs'
-        let cmd = 'cscript -nologo "$(VIM_FILEPATH)"'
-    elseif &ft == 'sh'
-        let cmd = 'chmod +x "$(VIM_FILEPATH)" && bash "$(VIM_FILEPATH)"'
-    elseif &ft == 'vim'
-        silent! exec 'so %'
-        echom "Source current script"
-        return
-    elseif &ft == 'markdown'
-        silent! exec 'MarkdownPreview'
-        return
-    else
-        echom "Current filetype is'n support."
-        return
-    endif
-    " Windows 下打开新的窗口 (-mode=4) 运行程序，其他系统在 quickfix 运行
-    " -raw: 输出内容直接显示到 quickfix window 不匹配 errorformat
-    " -save=2: 保存所有改动过的文件
-    " -cwd=$(VIM_FILEDIR): 运行初始化目录为文件所在目录
-    if has('win32') || has('win64')
-        exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=4 '. cmd
-    else
-        exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=0 '. cmd
-    endif
-endfunc
-
-nnoremap <leader>e :exit<CR>
-    nnoremap <leader>w :w<CR>
+nnoremap <space>e :exit<CR>
+nnoremap <space>w :w<CR>
 nmap L $
 nmap H 0^
 vmap L $h

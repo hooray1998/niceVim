@@ -33,39 +33,27 @@ set rtp+=~/.vim
 " 模块加载
 "----------------------------------------------------------------------
 
+" 修改iskeyword, verbose判断谁修改了
 LoadScript init/init-basic.vim
-LoadScript init/init-config.vim
-LoadScript init/init-style.vim
+" LoadScript init/init-config.vim
+" LoadScript init/init-style.vim
 
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
-
-
-    LoadScript init/enhance-basic.vim
-    LoadScript init/enhance-format.vim
-    LoadScript init/enhance-search.vim
-    LoadScript init/enhance-symbol.vim
-    LoadScript init/enhance-lint.vim
-    LoadScript init/enhance-ui.vim
+    " LoadScript init/enhance-basic.vim
+    " LoadScript init/enhance-search.vim
+    " LoadScript init/enhance-ui.vim
+    Plug 'sheerun/vim-polyglot'
+    Plug 'joshdick/onedark.vim'
     LoadScript init/enhance-markdown.vim
-    Plug 'skywind3000/vim-quickui'
-    Plug 'skywind3000/quickmenu.vim'
-
-    LoadScript init/git.vim
-    LoadScript init/coc.vim
-    LoadScript init/sidebar.vim
     " LoadScript init/ycm.vim
-    LoadScript init/gutentags.vim
-    LoadScript init/special.vim
-    LoadScript init/leaderf.vim
-    LoadScript init/gist.vim
-    LoadScript init/tasks.vim
+    " LoadScript init/gutentags.vim
+    " LoadScript init/special.vim
+    " LoadScript init/leaderf.vim
 
 
 call plug#end()
 
-LoadScript init/keymaps-for-basic.vim
-LoadScript init/keymaps-for-plugin.vim
-LoadScript init/menu.vim
+" LoadScript init/keymaps-for-basic.vim
 
 " colorscheme xcodedark
 colorscheme onedark

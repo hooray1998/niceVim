@@ -1,3 +1,4 @@
+Plug 'w0rp/ale'
 "==================================================================
 " Title: ALE动态语法检查
 "==================================================================
@@ -36,7 +37,7 @@ let g:ale_linters = {
 
 " 获取 pylint, flake8 的配置文件，在 vim-init/tools/conf 下面
 function! s:lintcfg(name)
-    let conf = GetPath('tools/conf/')
+    let conf = GetVimPath('tools/conf/')
     let path1 = conf . a:name
     let path2 = expand('~/.vim/linter/'. a:name)
     if filereadable(path2)

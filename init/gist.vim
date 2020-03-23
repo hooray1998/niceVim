@@ -1,3 +1,7 @@
+" 提供 gist 接口
+"Plug 'lambdalisue/vim-gista', { 'on': 'Gista' }
+"Plug 'mattn/webapi-vim'
+"Plug 'mattn/vim-gist'
 vnoremap <C-n> y:call NewGist()<CR>
 command -nargs=0 Gist :execute("Leaderf rg '' ".g:local_gist_dir)
 

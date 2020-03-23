@@ -231,9 +231,9 @@ function! TaskStar()
   let l:isNorm = match(l:line, ' ')
 
   if l:isStar > -1
-      silent! exec ":.s/☐_/☐ /g"
+      silent! exec ".s/☐_/☐ /g"
   elseif l:isNorm > -1
-      silent! exec ":.s/☐ /☐_/g"
+      silent! exec ".s/☐ /☐_/g"
   endif
 endfunc
 

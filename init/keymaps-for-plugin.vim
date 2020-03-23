@@ -103,7 +103,7 @@ vmap <m-space>  <Plug>(coc-format-selected)
 nmap <m-space>  <Plug>(coc-format-selected)ap
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
 "nnoremap <silent> <m-K> :PreviewTag<cr>
 
 function! s:show_documentation()
@@ -125,15 +125,21 @@ let g:markdown_fenced_languages = [
 " Title: 其他窗口/菜单
 "==================================================================
 
-
+let g:todo_filepath='/media/Document/my.todo'
+" NOTE: 保证离开时保存并且删除buffer
+autocmd VimEnter * exec "vsplit ". g:todo_filepath . "\| set ft=tasks \| wincmd w"
+autocmd BufLeave *.todo exec "w"
+autocmd WinLeave *.todo exec "w\|bwipeout " . g:todo_filepath
 function! TodoToggle()
-    if &ft == 'tasks'
-        exec ":wincmd w | bd *.todo"
+    if bufexists(g:todo_filepath)
+		if bufname('%') == g:todo_filepath
+            silent exec "wq"
+        endif
+        silent! exec "bwipeout " . g:todo_filepath
     else
-        exec ":vsplit /media/Document/my.todo"
+        exec ":vsplit " . g:todo_filepath
     endif
 endfunc
-"nnoremap <silent><m-7> :call TodoToggle()<CR>
 noremap <silent><m-7> <ESC>:<C-U>call TodoToggle()<CR>
 
 noremap <silent><m-8> :call quickmenu#toggle(3)<cr>
@@ -163,8 +169,8 @@ autocmd Filetype tasks inoremap <buffer> <S-Tab> 
 autocmd Filetype tasks inoremap <buffer> <Enter> <ESC>:call NewTask(1)<cr>
 autocmd Filetype tasks nnoremap <buffer> o :call NewTask(1)<cr>
 autocmd Filetype tasks nnoremap <buffer> O :call NewTask(-1)<cr>
-autocmd Filetype tasks nnoremap <buffer> <Enter> :call TaskComplete()<cr>
-autocmd Filetype tasks nnoremap <buffer> <BS> :call TaskCancel()<cr>
+autocmd Filetype tasks nnoremap <buffer> <Enter> :call TaskComplete()<cr>j
+autocmd Filetype tasks nnoremap <buffer> <BS> :call TaskCancel()<cr>j
 autocmd Filetype tasks nnoremap <buffer> <C-l> m6:call TasksArchive()<cr>'6
 
 autocmd Filetype tasks nnoremap <buffer> * :call TaskStar()<cr>
@@ -183,8 +189,6 @@ autocmd Filetype tasks nnoremap <buffer> ; @=((foldclosed(line('.')) < 0) ? 'zc'
 "==================================================================
 " Title: 增强功能
 "==================================================================
-
-"nmap <c-f> <Plug>(easymotion-s2)
 
 nnoremap <m-;> :Commands<CR>
 nnoremap <m-:> :CocCommand<CR>
@@ -232,12 +236,26 @@ autocmd FileType markdown nnoremap <silent> <buffer> <C-t> :TableModeRealign<CR>
 let g:EasyMotion_smartcase = 1
 " Smartsign (type `3` and match `3`&`#`)
 let g:EasyMotion_use_smartsign_us = 1
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-nmap <c-f> <Plug>(easymotion-overwin-f)
-
+map <space>j <Plug>(easymotion-j)
+map <space>k <Plug>(easymotion-k)
+nmap <C-f> <Plug>(easymotion-overwin-f2)
 
 command! -nargs=0 TranslatePopup CocCommand translator.popup
 command! -nargs=0 Translate CocCommand translator.echo
 command! -nargs=0 Dict CocList translators
 
+
+"==================================================================
+" Title: 终端快捷键
+"==================================================================
+
+let g:terminal_default_mapping = 0
+" 如果不行的话注明原因: 导致fzf不能通过c-[退出
+" tnoremap <c-[> <c-\><c-n>
+tnoremap <m-q> <c-\><c-n>
+tnoremap <m-'> <c-\><c-n>"0pa
+
+nnoremap <silent> <m-=> :call TerminalToggle()<cr>
+tnoremap <silent> <m-=> <c-\><c-n>:call TerminalToggle()<cr>
+
+nnoremap <silent> <space>r :AsyncTask file-run<cr>
