@@ -1,3 +1,7 @@
+Plug 'metakirby5/codi.vim'
+Plug 'dbridges/vim-markdown-runner'
+" Plug 'gpanders/vim-medieval'
+" Plug 'sillybun/vim-repl'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 let g:VM_default_mappings = 0
 let g:VM_maps = {}
@@ -38,6 +42,7 @@ Plug 'mhinz/vim-startify'
 
 autocmd User Startified nnoremap <buffer> <space>e :wincmd o\|exit<CR>
 autocmd User Startified nnoremap <buffer> l :call TodoToggle()<CR>
+autocmd User Startified nnoremap <buffer> - :LfCurrentDirectory<CR>
 autocmd User StartifyBufferOpened silent execute "wincmd o"
 
 let g:startify_disable_at_vimenter = 0
@@ -87,7 +92,7 @@ let g:startify_commands = [
 
 let g:startify_custom_header = 'startify#pad( startify#fortune#boxed())'
 let g:startify_custom_header_quotes = [
-            \ {-> systemlist('shuf -n2 $HOME/quote.list')}
+            \ {-> systemlist('shuf -n8 $HOME/quote.list')}
             \ ]
 function! StartifyEntryFormat()
     return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'

@@ -4,7 +4,7 @@ call quickui#menu#reset()
 " items containing tips, tips will display in the cmdline
 call quickui#menu#install('&File', [
             \ [ 'Auto&Format', 'Autoformat', '使用AutoFormat格式化代码' ],
-            \ [ '&Tab2Space', '%s/\t/    /gg | %s/\s*$//gg | w','Tab2Space & trailing' ],
+            \ [ '&Tab2Space', 'set ts=4|set expandtab|%retab!','Tab2Space & trailing' ],
             \ [ '&CRLF to LF', 'exec ":%s///gg"', '换行符转化' ],
             \ [ '-','' ],
             \ [ '&Save Session','SSave!', '保存会话' ],
@@ -38,8 +38,9 @@ call quickui#menu#install('&Git' ,  [
 " script inside %{...} will be evaluated and expanded in the string
 call quickui#menu#install("&Option", [
             \ ['Set &Spell %{&spell? "Off":"On"}', 'set spell!'],
-            \ ['Set &Cursor Line %{&cursorline? "Off":"On"}', 'set cursorline!'],
             \ ['Set &Paste %{&paste? "Off":"On"}', 'set paste!'],
+            \ ['Set &Cursor Line %{&cursorline? "Off":"On"}', 'set cursorline!'],
+            \ ['Set &Cursor Column %{&cursorcolumn? "Off":"On"}', 'set cursorcolumn!'],
             \ ['&Goyo', 'call QuietMode()', '专注模式'],
             \ ['Turn &Gutentags %{get(g:, "gutentags_enabled")==1? "Off":"On"}', 'EnableGutentags'],
             \ ['Toggle H&iPairs', 'HiPairsToggle'],
@@ -84,6 +85,7 @@ hi! QuickBG ctermfg=0 ctermbg=7 guifg=black guibg=gray
 " hi! QuickHelp ctermfg=247 guifg=#959173
 " hit space twice to open menu
 noremap <silent> <m-8> :call quickui#menu#open()<cr>
+noremap <silent> <space><space> :call quickui#menu#open()<cr>
 
 " command! -nargs=0 TranslatePopup CocCommand translator.popup
 " command! -nargs=0 Translate CocCommand translator.echo

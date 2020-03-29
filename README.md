@@ -17,6 +17,7 @@ checkhealth
 
 ```sh
 npm i -g bash-language-server
+npm i -g tldr (.tldr压缩打包)
 ```
 
 ### Universal Ctags
@@ -55,7 +56,7 @@ go　get github.com:efm-lsp
 
 ```sh
 npm i -g fd-find
-zypper in fd
+zypper install fd
 install rg
 ```
 
@@ -71,6 +72,7 @@ install rg
 
 ```sh
 :PlugInstall
+Leaderf编译c扩展
 ```
 
 ## QuickStart
@@ -151,30 +153,30 @@ install rg
 
 #### 文件内命令
 
-| 命令     | 功能                                       |
-|----------|--------------------------------------------|
-| Gblame   | 查看每行的最新修改是什么时候               |
-| Gwrite   | 增加到暂存区                               |
-| Gvdiff   | 与最近的提交比较                           |
-| Gread    | 放弃修改恢复到最近的一次提交或暂存区的内容 |
-| Gmove    | 移除文件并重命名缓存区                     |
-| Ggrep    | 搜索git文件                                |
-| BCommits | 查看当前文件所有提交                       |
+| 命令       | 功能                                                       |
+| ---------- | --------------------------------------------               |
+| Gblame     | 查看每行的最新修改是什么时候(p预览commit,-进入光标下的版本 |
+| Gwrite     | 增加到暂存区(git add)                                      |
+| Gvdiff     | 与最近的提交比较                                           |
+| Gread      | 放弃修改恢复到最近的一次提交或暂存区的内容                 |
+| Gmove      | 移除文件并重命名缓存区                                     |
+| Ggrep      | 搜索git文件                                                |
+| BCommits   | 查看当前文件所有提交                                       |
 
 #### Git界面按键映射(:G进入)
 
-| Map   | Des                    |
-|-------|------------------------|
-| CR    | 进入文件               |
-| -/s/u | 暂存/取消暂存          |
-| U     | 全部取消暂存           |
-| X     | 丢弃修改checkout/clean |
-| =     | 快速查看/关闭diff      |
-| dd/dv | 对比查看diff           |
-| cc    | 提交                   |
-| ca    | 追加修改               |
-| gI    | 进入ignore文件         |
-| Gclog | 查看某些文件的提交记录 |
+| Map   | Des                      |
+|-------|--------------------------|
+| CR    | 进入文件                 |
+| -/s/u | 暂存/取消暂存            |
+| U     | 全部取消暂存             |
+| X     | 丢弃修改checkout/clean   |
+| =     | 快速查看/关闭diff        |
+| dd    | **新标签页对比查看diff** |
+| cc    | 提交                     |
+| ca    | 追加修改                 |
+| gI    | 进入ignore文件           |
+| Gclog | 查看某些文件的提交记录   |
 
 ### Markdown
 
@@ -213,24 +215,40 @@ install rg
 | c-n  | 创建gist |
 | Gist | 搜索gist |
 
-### 多光标
+### surround
 
-vim-visual-multi
-It's called vim-visual-multi in analogy with visual-block, but the plugin works mostly from normal mode.
+### task工具
 
-Basic usage:
+### fzf命令行工具
 
-select words with Ctrl-N (like Ctrl-d in Sublime Text/VS Code)
-create cursors vertically with Ctrl-Down/Ctrl-Up
-select one character at a time with Shift-Arrows
-press n/N to get next/previous occurrence
-press [/] to select next/previous cursor
-press q to skip current and get next occurrence
-press Q to remove current cursor/selection
-start insert mode with i,a,I,A
-Two main modes:
+### fzf重写很多命令行函数
 
-in cursor mode commands work as they would in normal mode
-in extend mode commands work as they would in visual mode
-press Tab to switch between «cursor» and «extend» mode
+### unimpaired.vim
 
+q|quickfix
+l|location
+j/b|buffer
+f|file
+c|git diff
+g|warn
+<space>|add newline
+
+### tldr使用
+
+```sh
+echo tell awk
+```
+
+```python
+print("hello world")
+```
+
+```lua
+print("hello world");
+```
+
+```perl
+print("hello world\n");
+print("hello world\n");
+print("hello world\n");
+```

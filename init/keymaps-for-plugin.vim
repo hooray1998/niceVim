@@ -7,7 +7,9 @@
 "|GFiles?|Git files (git status)|
 " nnoremap <silent> <Space>f :Files<CR>
 " nnoremap <silent> <Space>f :LeaderfFile<CR>
-nnoremap <silent> <Space>b :Buffers<CR>
+" nnoremap <silent> <Space>b :Buffers<CR>
+nnoremap <silent> <space>f :<C-u>FzfPreviewGitFiles<CR>
+nnoremap <silent> <Space>b :<C-u>FzfPreviewAllBuffers<CR>
 " nnoremap <silent> <Space>l :BLines<CR>
 nnoremap <silent> <c-n> :LeaderfMru<cr>
 nnoremap <silent> <m-/> :LeaderfLine<CR>
@@ -15,8 +17,8 @@ nnoremap <silent> <m-?> :LeaderfLineAll<CR>
 " nnoremap <silent> <Space>L :Lines<CR>
 
 
-noremap <m-*> :<C-U><C-R>=printf("Leaderf rg %s ", expand("<cword>"))<CR><CR>
-command! -nargs=* Rg :Leaderf rg <args>
+noremap <m-*> :<C-U><C-R>=printf("Leaderf rg --bottom --stayOpen %s ", expand("<cword>"))<CR><CR>
+command! -nargs=* Rg :Leaderf rg --bottom --stayOpen <args>
 
 "==================================================================
 " Title: 定义、引用、符号
@@ -64,7 +66,9 @@ function! GoReferences()
     endif
 endfunc
 
-noremap <F10> :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+" 设置 F10 打开/关闭 Quickfix 窗口
+nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
+noremap <F9> :<C-U>Leaderf --recall<CR>
 
 nmap <silent> gd :call GoDefinition()<CR>
 nmap <silent> gr :call GoReferences()<CR>
@@ -84,13 +88,10 @@ nmap <silent> gy <Plug>(coc-type-definition)
 "==================================================================
 
 
-vmap <silent> <m-cr> :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-nmap <silent> <m-cr> :<C-u>execute 'CocCommand actions.open ' <CR>
-
-
-"vmap <m-cr>  <Plug>(coc-codeaction-selected)
-"nmap <m-cr>  <Plug>(coc-fix-current)
-"nmap <m-\>  <Plug>(coc-codeaction)
+" vmap <silent> <m-cr> :<C-u>silent! execute 'CocCommand actions.open ' . visualmode()<CR>
+" nmap <silent> <m-cr> :<C-u>silent! execute 'CocCommand actions.open ' <CR>
+nmap <silent> <m-\> <Plug>(coc-codeaction)
+nmap <silent> <m-cr> <Plug>(coc-fix-current)
 
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
@@ -127,9 +128,9 @@ let g:markdown_fenced_languages = [
 
 let g:todo_filepath='/media/Document/my.todo'
 " NOTE: 保证离开时保存并且删除buffer
-autocmd VimEnter * exec "vsplit ". g:todo_filepath . "\| set ft=tasks \| wincmd w"
-autocmd BufLeave *.todo exec "w"
-autocmd WinLeave *.todo exec "w\|bwipeout " . g:todo_filepath
+" autocmd VimEnter * exec "vsplit ". g:todo_filepath . "\| set ft=tasks \| wincmd w"
+" autocmd BufLeave *.todo silent! exec "w"
+autocmd WinLeave *.todo silent! exec "w\|bwipeout " . g:todo_filepath
 function! TodoToggle()
     if bufexists(g:todo_filepath)
 		if bufname('%') == g:todo_filepath
@@ -142,7 +143,7 @@ function! TodoToggle()
 endfunc
 noremap <silent><m-7> <ESC>:<C-U>call TodoToggle()<CR>
 
-noremap <silent><m-8> :call quickmenu#toggle(3)<cr>
+" noremap <silent><m-8> :call quickmenu#toggle(3)<cr>
 noremap <silent><m-9> :call quickmenu#toggle(0)<cr>
 noremap <silent><m-0> :call quickmenu#toggle(1)<cr>
 
@@ -163,23 +164,23 @@ noremap <space>nt :NERDTreeToggle<cr>
 
 
 " MAPPINGS
-autocmd Filetype tasks inoremap <buffer> <Tab> 
-autocmd Filetype tasks inoremap <buffer> <S-Tab> 
+autocmd Filetype todo inoremap <buffer> <Tab> 
+autocmd Filetype todo inoremap <buffer> <S-Tab> 
 " 编辑下一行
-autocmd Filetype tasks inoremap <buffer> <Enter> <ESC>:call NewTask(1)<cr>
-autocmd Filetype tasks nnoremap <buffer> o :call NewTask(1)<cr>
-autocmd Filetype tasks nnoremap <buffer> O :call NewTask(-1)<cr>
-autocmd Filetype tasks nnoremap <buffer> <Enter> :call TaskComplete()<cr>j
-autocmd Filetype tasks nnoremap <buffer> <BS> :call TaskCancel()<cr>j
-autocmd Filetype tasks nnoremap <buffer> <C-l> m6:call TasksArchive()<cr>'6
+autocmd Filetype todo inoremap <buffer> <Enter> <ESC>:call NewTask(1)<cr>
+autocmd Filetype todo nnoremap <buffer> o :call NewTask(1)<cr>
+autocmd Filetype todo nnoremap <buffer> O :call NewTask(-1)<cr>
+autocmd Filetype todo nnoremap <buffer> <Enter> :call TaskComplete()<cr>j
+autocmd Filetype todo nnoremap <buffer> <BS> :call TaskCancel()<cr>j
+autocmd Filetype todo nnoremap <buffer> <C-l> m6:call TasksArchive()<cr>'6
 
-autocmd Filetype tasks nnoremap <buffer> * :call TaskStar()<cr>
-autocmd Filetype tasks nnoremap <buffer> <C-j> /:\s*$<cr>:<C-u>set nohlsearch<cr>
-autocmd Filetype tasks nnoremap <buffer> <C-k> ?:\s*$<cr>:<C-u>set nohlsearch<cr>
+autocmd Filetype todo nnoremap <buffer> * :call TaskStar()<cr>
+autocmd Filetype todo nnoremap <buffer> <C-j> /:\s*$<cr>:<C-u>set nohlsearch<cr>
+autocmd Filetype todo nnoremap <buffer> <C-k> ?:\s*$<cr>:<C-u>set nohlsearch<cr>
 
 "setlocal foldlevel=2        " 设置折叠层数为
 " 用空格键来开关折叠
-autocmd Filetype tasks nnoremap <buffer> ; @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+autocmd Filetype todo nnoremap <buffer> ; @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 
 
 
@@ -219,18 +220,17 @@ function! QuietMode() abort
     if g:quiet_mode == 0
         exec "SignifyDisable"
         exec "Goyo"
-        exec "CocDisable"
-        exec "ApcEnable"
     else
         exec "SignifyEnable"
         exec "Goyo"
-        exec "CocEnable"
-        exec "ApcDisable"
     endif
     let g:quiet_mode = !g:quiet_mode
 endfunction
 autocmd Filetype markdown nnoremap <silent> <buffer> <F12> :call QuietMode()<CR>
-autocmd FileType markdown nnoremap <silent> <buffer> <C-t> :TableModeRealign<CR>
+
+" 不同模式下Ctrl-t对齐
+nnoremap <C-t> :<C-U><C-R>=printf("Tabularize /\|")<CR><CR>
+vnoremap <C-t> "ry:Tabularize /r
 
  " type `l` and match `l`&`L`
 let g:EasyMotion_smartcase = 1
@@ -259,3 +259,23 @@ nnoremap <silent> <m-=> :call TerminalToggle()<cr>
 tnoremap <silent> <m-=> <c-\><c-n>:call TerminalToggle()<cr>
 
 nnoremap <silent> <space>r :AsyncTask file-run<cr>
+nnoremap <silent> <space>d :DogeGenerate<cr>
+" autocmd FileType fugitive nnoremap <silent><buffer> dd dv
+" autocmd FileType fugitive nnoremap dd $gf:Gvdiffsplit
+function! GoDiff()
+    silent! normal $gf
+    silent! execute "Gvdiffsplit"
+    silent! wincmd l
+endfunc
+" autocmd FileType fugitive  noremap <buffer> dd $gf:Gvdiffsplit
+autocmd FileType fugitive  noremap <silent><buffer> dd :call GoDiff()<CR>
+
+nnoremap ]a :ALENext<CR>
+nnoremap [a :ALEPrevious<CR>
+nnoremap <C-Up> :Leaderf --previous<CR>
+nnoremap <C-Down> :Leaderf --next<CR>
+nnoremap <C-Left> :Leaderf --recall<CR>
+noremap <C-Right> <ESC>
+
+vnoremap D :norm 
+vnoremap Q :norm @q<CR>

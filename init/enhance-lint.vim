@@ -4,6 +4,8 @@ Plug 'w0rp/ale'
 "==================================================================
 
 
+let g:ale_set_loclist=0
+let g:ale_set_quickfix=1
 " 设定延迟和提示信息
 let g:ale_completion_delay = 500
 let g:ale_echo_delay = 20

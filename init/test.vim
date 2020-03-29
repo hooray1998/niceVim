@@ -9,10 +9,13 @@ call quickui#menu#install('&File', [
             \ [ '-','' ],
             \ [ '&Save Session','SSave!', '保存会话' ],
             \ ])
-call quickui#menu#install('&Mode', [
+call quickui#menu#install('&Development', [
             \ [ '&Goyo', 'Goyo', '专注模式'],
-            \ [ '&Find', 'echo 3', 'help 3' ],
+            \ [ '&Task', 'Leaderf --nowrap task', '任务列表' ],
+            \ [ '&Execute', 'call  ExecuteFile()', '执行代码' ],
+            \ [ '&Switch H/S', 'echo none', '头文件切换' ],
             \ ])
+
 
 function! EnableGutentags()
     exec ":GutentagsToggleEnabled"
@@ -22,20 +25,16 @@ function! EnableGutentags()
         echom "已禁用:gutentags"
     endif
 endfunc
-| Gblame   | 查看每行的最新修改是什么时候               |
-| Gwrite   | 增加到暂存区                               |
-| Gvdiff   | 与最近的提交比较                           |
-| Gread    | 放弃修改恢复到最近的一次提交或暂存区的内容 |
-| Gmove    | 移除文件并重命名缓存区                     |
-| Ggrep    | 搜索git文件                                |
-| BCommits | 查看当前文件所有提交                       |
-call quickui#menu#install('&Git', [
-            \ [ 'Git &add', 'Gwrite', '增加到暂存区'],
-            \ [ 'Git &diff', 'Gvdiffsplit', '文件对比' ],
-            \ [ 'Git &blame', 'Gblame', '文件问责' ],
-            \ [ 'Git &grep', 'Ggrep', 'Git文件搜索' ],
-            \ [ 'Git &commit', 'BCommits', '本文件相关的提交' ],
-            \ [ '&Git', 'G', 'fugitive' ],
+
+call quickui#menu#install('&Git' ,  [
+            \ [ 'Git &add'       ,  'Gwrite'      ,  '增加到暂存区'],
+            \ [ 'Git &diff'      ,  'Gvdiffsplit' ,  '文件对比' ],
+            \ [ 'Git &read'      ,  'Gread'       ,  '恢复到最近的提交' ],
+            \ [ 'Git &blame'     ,  'Gblame'      ,  '文件问责' ],
+            \ [ 'Git &grep'      ,  'Ggrep'       ,  'Git文件搜索' ],
+            \ [ 'Git &commit'    ,  'BCommits'    ,  '本文件相关的提交' ],
+            \ [ 'Git &log'       ,  'Gclog'       ,  '提交记录' ],
+            \ [ '&Git'           ,  'G'           ,  'fugitive' ],
             \ ])
 " script inside %{...} will be evaluated and expanded in the string
 call quickui#menu#install("&Option", [

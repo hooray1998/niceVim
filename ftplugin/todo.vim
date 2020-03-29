@@ -10,6 +10,7 @@ if exists("b:loaded_tasks")
 endif
 let b:loaded_tasks = 1
 
+setlocal wrap
 nnoremap <buffer> ` o
 nnoremap <buffer> ~ O
 

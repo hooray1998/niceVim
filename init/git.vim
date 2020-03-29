@@ -4,6 +4,7 @@ Plug 'mhinz/vim-signify'
 Plug 'chrisbra/vim-diff-enhanced'
 " Git 支持
 Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 
 "==================================================================
 " Title: Signity显示git/svn
@@ -28,6 +29,4 @@ let g:signify_skip_filetype = { 'startify': 1 , 'tasks': 1 }
 " git 仓库使用 histogram 算法进行 diff
 let g:signify_vcs_cmds = {
             \ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
-
             \}
-

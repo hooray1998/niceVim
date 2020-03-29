@@ -3,8 +3,12 @@ Plug 'skywind3000/quickmenu.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 
+let g:asynctasks_extra_config = [
+  \ '~/.local/config/niceVim/config/tasks.ini',
+  \ ]
+
 function! s:lf_task_source(...)
-	let rows = asynctasks#source(&columns * 48 / 100)
+	let rows = asynctasks#source(&columns * 58 / 100)
 	let source = []
 	for row in rows
 		let name = row[0]
@@ -54,7 +58,7 @@ let g:Lf_Extensions.task = {
 
 " 不生成到buffer列表中
 let g:asynctasks_term_listed = 0
-let g:asynctasks_term_cols = &columns / 3
+let g:asynctasks_term_cols = &columns * 2/5
 " 默认右侧terminal显示
 let g:asynctasks_term_pos = 'right'
 let g:asynctasks_term_focus = 0

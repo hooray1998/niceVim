@@ -6,9 +6,12 @@
     " Plug 'justinmk/vim-dirvish'
     "Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeFocus', 'NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] }
     "Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+    Plug 'psliwka/vim-smoothie'
+    Plug 'tpope/vim-eunuch'
+
     Plug 'rbgrouleff/bclose.vim'
     Plug 'ptzz/lf.vim'
-    nmap - :LfCurrentFileNewTab<CR>
+    nmap - :tabedit %\| LfCurrentFile<CR>
     let g:NERDTreeHijackNetrw = 0
     let g:lf_replace_netrw = 1
 
@@ -31,19 +34,20 @@
     Plug 'jceb/vim-textobj-uri'
 
     " powershell 脚本文件的语法高亮
-    Plug 'pprovost/vim-ps1', { 'for': 'ps1' }
+    " Plug 'pprovost/vim-ps1', { 'for': 'ps1' }
     " lua 语法高亮增强
-    Plug 'tbastos/vim-lua', { 'for': 'lua' }
+    " Plug 'tbastos/vim-lua', { 'for': 'lua' }
     " C++ 语法高亮增强，支持 11/14/17 标准
     Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'cpp'] }
+    Plug 'sheerun/vim-polyglot'
     " 额外语法文件
-    Plug 'justinmk/vim-syntax-extra', { 'for': ['c', 'bison', 'flex', 'cpp'] }
+    " Plug 'justinmk/vim-syntax-extra', { 'for': ['c', 'bison', 'flex', 'cpp'] }
     " python 语法文件增强
-    Plug 'vim-python/python-syntax', { 'for': ['python'] }
+    " Plug 'vim-python/python-syntax', { 'for': ['python'] }
     " rust 语法增强
-    Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+    " Plug 'rust-lang/rust.vim', { 'for': 'rust' }
     " vim org-mode
-    Plug 'jceb/vim-orgmode', { 'for': 'org' }
+    " Plug 'jceb/vim-orgmode', { 'for': 'org' }
 
 
 

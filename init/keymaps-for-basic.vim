@@ -75,6 +75,11 @@ noremap <silent> [j :bp<cr>
 noremap <silent> ]j :bn<cr>
 noremap <tab>, gT
 noremap <tab>. gt
+noremap <tab>c :tabnew \| Startify<cr>
+noremap <tab>q :tabclose<cr>
+" 进入新的buffer之后，为该buffer建立一个tab
+noremap <tab>n mM:tabnew<cr>`M:delmarks M<cr>
+
 " tab enhancement  替换之前的c-i/c-o
 noremap <silent><tab> <nop>
 noremap <silent><tab>f <c-i>
@@ -84,9 +89,7 @@ noremap <tab>h <c-w>h
 noremap <tab>j <c-w>j
 noremap <tab>k <c-w>k
 noremap <tab>l <c-w>l
-
 noremap <tab>w <c-w>w
-noremap <tab>c <c-w>c
 
 noremap <tab>+ <c-w>+
 noremap <tab>- <c-w>-
@@ -120,8 +123,6 @@ function! Tab_MoveRight()
     endif
 endfunc
 
-nnoremap <silent> <space>tc :tabnew<cr>
-nnoremap <silent> <space>tn :tabedit %<cr>:bn<cr>:tabpre<cr>
 noremap <silent><m-left> :call Tab_MoveLeft()<cr>
 noremap <silent><m-right> :call Tab_MoveRight()<cr>
 
@@ -196,12 +197,13 @@ let g:asyncrun_bell = 1
 
 nnoremap <space>e :exit<CR>
 nnoremap <space>w :w<CR>
+nnoremap <Space>W :w !sudo tee % > /dev/null <CR>
 nmap L $
 nmap H 0^
-vmap L $h
-vmap H 0^
 map L $
-map H 0^
+map H 0
+vnoremap L $h
+vnoremap H 0^
 "映射显示当前文件目录的快捷键"
 if has('win32') || has('win64')
     cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'\' : '%%'
@@ -213,7 +215,14 @@ nnoremap <silent> <C-l> :<C-u>nohlsearch<CR>:cclose<CR><C-l>
 
 "快捷复制粘贴至系统
 nnoremap <C-a> mmggVG"+y`m<CR>
-"*搜索增强
-vnoremap * y/\V<C-R>"<CR>
+" 重定义*, 使其那能够搜索选中文本
+xnoremap * : <C-u> call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
+xnoremap # : <C-u> call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
+function! s:VSetSearch()
+    let temp = @s
+    norm! gv"sy
+    let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+    let @s = temp
+endfunction
 
-cmap w!! %!sudo tee>/dev/null %
+cmap w!! w !sudo tee % > /dev/null <CR>

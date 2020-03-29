@@ -12,8 +12,9 @@ let g:Lf_WindowHeight = 0.30
 let g:Lf_CacheDirectory = expand('~/.vim/cache')
 
 " 显示绝对路径
-let g:Lf_ShowRelativePath = 0
+let g:Lf_ShowRelativePath = 1
 
+let g:Lf_NoChdir = 1
 " 隐藏帮助
 let g:Lf_HideHelp = 1
 
@@ -25,7 +26,7 @@ let g:Lf_WildIgnore = {
 
 " MRU 文件忽略扩展名
 let g:Lf_MruMaxFiles = 100
-let g:Lf_MruFileExclude = ['*.so', '*.exe', '*.py[co]', '*.sw?', '~$*', '*.bak', '*.tmp', '*.dll', 'tags', '.tags']
+let g:Lf_MruFileExclude = ['*.so', '*.exe', '*.py[co]', '*.sw?', '~$*', '*.bak', '*.tmp', '*.dll', 'tags', '.tags', '*.todo']
 let g:Lf_StlColorscheme = 'powerline'
 " ui 定制
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }

@@ -10,23 +10,23 @@
 //         }
 //       }
 //    },
-    "bash": {
-      "command": "bash-language-server",
-      "args": ["start"],
-      "filetypes": ["sh"],
-      "ignoredRootPaths": ["~"]
-    },
-    "lua": {
-      "command": "lua-lsp",
-      "filetypes": ["lua"]
-    },
-    "efm": {
-      "command": "efm-langserver",
-      // "args": [],
-      // custom config path
-      "args": ["-c", "/home/itt/.config/efm-langserver/config.yaml"],
-      "filetypes": ["vim", "eruby", "markdown"]
-    },
+//    "bash": {
+//      "command": "bash-language-server",
+//      "args": ["start"],
+//      "filetypes": ["sh"],
+//      "ignoredRootPaths": ["~"]
+//    },
+//    "lua": {
+//      "command": "lua-lsp",
+//      "filetypes": ["lua"]
+//    },
+//    "efm": {
+//      "command": "efm-langserver",
+//      // "args": [],
+//      // custom config path
+//      "args": ["-c", "/home/itt/.config/efm-langserver/config.yaml"],
+//      "filetypes": ["vim", "eruby", "markdown"]
+//    },
     "python": {
       "command": "python",
       "args": [
@@ -163,4 +163,9 @@
 ],
     "explorer.icon.enableNerdfont":true,
     "explorer.position":"floating",
+    "markdownlint.onOpen": true,
+    "markdownlint.onSave": true,
+    "markdownlint.onChange": false,
+    "tabnine.shortcut": "TN",
+    "tabnine.triggers": ["TN"]
 }

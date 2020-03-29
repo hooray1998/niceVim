@@ -19,6 +19,7 @@ set go=             " 不要图形按钮
 set showcmd         " 输入的命令显示出来，看的清楚些
 set novisualbell    " 不要闪烁(不明白)
 set laststatus=2    " 启动显示状态行(1),总是显示状态行(2)
+set relativenumber " 设置显示相对行号（其他行与当前行的距离）
 
 if has('win32') || has('win64')
     set guifont=Menlo:h12:cANSI   " 设置字体
@@ -235,7 +236,6 @@ set breakindent "打算后保持缩进"
 " Title: 其他
 "==================================================================
 
-set shell=/bin/bash
+" set shell=/bin/bash
+set shell=/bin/zsh
 set switchbuf=newtab "新的tab打开预览项
-
-

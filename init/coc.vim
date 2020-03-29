@@ -4,6 +4,28 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Title: Coc配置
 "==================================================================
 
+let g:coc_global_extensions = [
+            \ 'coc-zi' ,
+            \ 'coc-yank' ,
+            \ 'coc-vimlsp' ,
+            \ 'coc-translator' ,
+            \ 'coc-todolist' ,
+            \ 'coc-tabnine' ,
+            \ 'coc-snippets' ,
+            \ 'coc-marketplace'  ,
+            \ 'coc-explorer' ,
+            \ 'coc-ecdict' ,
+            \ 'coc-xml' ,
+            \ 'coc-python' ,
+            \ 'coc-markmap' ,
+            \ 'coc-markdownlint' ,
+            \ 'coc-lua' ,
+            \ 'coc-json' ,
+            \ 'coc-java' ,
+            \ 'coc-html' ,
+            \ 'coc-css',
+            \ 'coc-cmake',
+            \ 'coc-actions']
 
 set updatetime=300
 set shortmess+=c
@@ -15,9 +37,10 @@ else
   imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
-
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" if has('nvim')
+    " autocmd CursorHold *.py,*.sh silent call CocActionAsync('highlight')
+" endif
 
 augroup mygroup
   autocmd!
@@ -25,21 +48,4 @@ augroup mygroup
   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder.
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-
-"==================================================================
-" Title: coc-pairs括号补全
-"==================================================================
-
-" 括号配对后cr增强
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-				\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-autocmd FileType markdown let b:coc_pairs_disabled = ['`']
-autocmd FileType tasks    let b:coc_pairs_disabled = ['(', ')']
-autocmd FileType vim      let b:coc_pairs_disabled = ['"']
-
-augroup Smartf
-  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
-  autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
 augroup end

@@ -9,9 +9,9 @@
 
 " 防止重复加载
 if get(s:, 'loaded', 0) != 0
-	finish
+    finish
 else
-	let s:loaded = 1
+    let s:loaded = 1
 endif
 
 " 取得本文件所在的目录
@@ -33,13 +33,12 @@ set rtp+=~/.vim
 " 模块加载
 "----------------------------------------------------------------------
 
+" 修改iskeyword, verbose判断谁修改了
 LoadScript init/init-basic.vim
 LoadScript init/init-config.vim
 LoadScript init/init-style.vim
 
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
-
-
     LoadScript init/enhance-basic.vim
     LoadScript init/enhance-format.vim
     LoadScript init/enhance-search.vim
@@ -47,14 +46,11 @@ call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
     LoadScript init/enhance-lint.vim
     LoadScript init/enhance-ui.vim
     LoadScript init/enhance-markdown.vim
-    Plug 'skywind3000/vim-quickui'
-    Plug 'skywind3000/quickmenu.vim'
-
     LoadScript init/git.vim
     LoadScript init/coc.vim
     LoadScript init/sidebar.vim
     " LoadScript init/ycm.vim
-    LoadScript init/gutentags.vim
+    " LoadScript init/gutentags.vim
     LoadScript init/special.vim
     LoadScript init/leaderf.vim
     LoadScript init/gist.vim
@@ -67,6 +63,18 @@ LoadScript init/keymaps-for-basic.vim
 LoadScript init/keymaps-for-plugin.vim
 LoadScript init/menu.vim
 
+" colorscheme onedark
+" colorscheme OceanicNext
+" colorscheme molokai
+" colorscheme PaperColor
+" colorscheme codedark
 " colorscheme xcodedark
-colorscheme onedark
-" colorscheme edge
+" colorscheme gruvbox
+colorscheme space_vim_theme
+" colorscheme atom-dark-256
+"——————————————————————————————————————————————————————————————————
+" Title: 去掉Signify的背景色
+"——————————————————————————————————————————————————————————————————
+highlight SignifySignAdd    ctermfg=green  guifg=#00ff00 cterm=NONE gui=NONE
+highlight SignifySignDelete ctermfg=red    guifg=#ff0000 cterm=NONE gui=NONE
+highlight SignifySignChange ctermfg=yellow guifg=#ffff00 cterm=NONE gui=NONE

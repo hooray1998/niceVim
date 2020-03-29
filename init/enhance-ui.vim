@@ -2,10 +2,21 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" 一次性安装一大堆 colorscheme
-Plug 'flazz/vim-colorschemes'
 Plug 'joshdick/onedark.vim'
 Plug 'arzg/vim-colors-xcode'
+Plug 'tomasiser/vim-code-dark'
+Plug 'liuchengxu/space-vim-theme'
+
+Plug 'morhetz/gruvbox'
+" 修改如下两行
+" call s:HL('CursorLineNr', s:yellow, s:bg0)
+" let s:sign_column = s:bg0
+
+Plug 'tomasr/molokai'
+Plug 'mhartington/oceanic-next'
+Plug 'gosukiwi/vim-atom-dark'
+Plug 'NLKNguyen/papercolor-theme'
+let g:rehash256 = 1
 
 
 "==================================================================
@@ -27,7 +38,9 @@ let g:airline#extensions#csv#enabled = 0
 let g:airline#extensions#vimagit#enabled = 0
 
 " 优化tab栏显示
+" let g:airline_theme='gruvbox'
 let g:airline_theme='onedark'
+let g:airline#extensions#tabline#formatter = 'short_path'
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number

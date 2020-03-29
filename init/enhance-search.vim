@@ -1,6 +1,8 @@
     " 快速文件搜索
     Plug 'junegunn/fzf', { 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
+    Plug 'yuki-ycino/fzf-preview.vim'
+    let g:fzf_preview_use_dev_icons=1
     " 使用 :CtrlSF 命令进行模仿 sublime 的 grep
     Plug 'dyng/ctrlsf.vim'
     " ALT_+/- 用于按分隔符扩大缩小 v 选区
