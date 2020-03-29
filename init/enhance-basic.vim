@@ -2,18 +2,22 @@
     Plug 'xolox/vim-misc'
     " 用于在侧边符号栏显示 marks （ma-mz 记录的位置）
     Plug 'kshenoy/vim-signature'
-    " 文件浏览器，代替 netrw
-    " Plug 'justinmk/vim-dirvish'
     "Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeFocus', 'NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] }
     "Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'psliwka/vim-smoothie'
     Plug 'tpope/vim-eunuch'
 
-    Plug 'rbgrouleff/bclose.vim'
-    Plug 'ptzz/lf.vim'
-    nmap - :tabedit %\| LfCurrentFile<CR>
-    let g:NERDTreeHijackNetrw = 0
-    let g:lf_replace_netrw = 1
+    if has('win32')
+        " 文件浏览器，代替 netrw
+        Plug 'justinmk/vim-dirvish'
+    else
+        Plug 'rbgrouleff/bclose.vim'
+        Plug 'ptzz/lf.vim'
+        nmap - :tabedit %\| LfCurrentFile<CR>
+        let g:NERDTreeHijackNetrw = 0
+        let g:lf_replace_netrw = 1
+    endif
+
 
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-unimpaired'
@@ -84,7 +88,7 @@ endfunc
 
 augroup MyPluginSetup
     autocmd!
-    " autocmd FileType dirvish call s:setup_dirvish()
-    " autocmd FileType dirvish nmap <buffer> l <CR>
-    " autocmd FileType dirvish nmap <buffer> h -
+    autocmd FileType dirvish call s:setup_dirvish()
+    autocmd FileType dirvish nmap <buffer> l <CR>
+    autocmd FileType dirvish nmap <buffer> h -
 augroup END

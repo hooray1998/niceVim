@@ -21,20 +21,6 @@ set novisualbell    " 不要闪烁(不明白)
 set laststatus=2    " 启动显示状态行(1),总是显示状态行(2)
 set relativenumber " 设置显示相对行号（其他行与当前行的距离）
 
-if has('win32') || has('win64')
-    set guifont=Menlo:h12:cANSI   " 设置字体
-    "设置半透明
-    au GUIEnter * call libcallnr("vimtweak.dll", "SetAlpha", 240)
-    "设置初始工作路径
-    exec 'cd ' . fnameescape('E:/')
-    "启动位置
-    winpos 0 0
-    "设置默认窗口大小
-    set lines=103 columns=179
-endif
-
-"共享剪贴板
-set clipboard+=unnamed
 " 在被分割的窗口间显示空白，便于阅读
 "set fillchars=vert:\ ,stl:\ ,stlnc:\
 
@@ -236,6 +222,4 @@ set breakindent "打算后保持缩进"
 " Title: 其他
 "==================================================================
 
-" set shell=/bin/bash
-set shell=/bin/zsh
 set switchbuf=newtab "新的tab打开预览项

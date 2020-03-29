@@ -5,6 +5,39 @@ Plug 'Yggdroot/LeaderF'
 "==================================================================
 
 
+" don't show the help in normal mode
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
+
+let g:Lf_RootMarkers = ['.git', '.svn', '.root']
+" 插入模式使用Ctrl-p预览即可, Ctrl-D/U 上下滚动
+let g:Lf_CommandMap = {'<C-Up>': ['<C-U>'], '<C-Down>': ['<C-D>']}
+let g:Lf_MruMaxFile = 50
+let g:Lf_PreviewResult = {
+        \ 'File': 0,
+        \ 'Buffer': 0,
+        \ 'Mru': 0,
+        \ 'Tag': 0,
+        \ 'BufTag': 0,
+        \ 'Function': 0,
+        \ 'Line': 0,
+        \ 'Colorscheme': 1,
+        \ 'Rg': 0,
+        \ 'Gtags': 0
+        \}
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_PopupWidth = 0.75
+let g:Lf_PopupHeight = 0.4
+let g:Lf_PopupPosition = [ &lines * 1 / 2,  0]
+let g:Lf_StlSeparator = { 'left': "", 'right': "" }
+
+let g:Lf_WildIgnore = {
+        \ 'dir': ['.svn','.git','.hg'],
+        \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+        \}
 " 如何识别项目目录，从当前文件目录向父目录递归知道碰到下面的文件/目录
 let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
 let g:Lf_WorkingDirectoryMode = 'Ac'

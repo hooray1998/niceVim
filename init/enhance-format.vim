@@ -10,3 +10,4 @@ noremap <silent> <m-a> :call NERDComment("n", "Toggle")<CR>
 " 根据 quickfix 中匹配到的错误信息，高亮对应文件的错误行
 " 使用 :RemoveErrorMarkers 命令或者 <space>ha 清除错误
 Plug 'mh21/errormarker.vim'
+let errormarker_disablemappings = 1

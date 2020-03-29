@@ -5,16 +5,17 @@
 
 "|GFiles [OPTS]|Git files (git ls-files)|
 "|GFiles?|Git files (git status)|
-" nnoremap <silent> <Space>f :Files<CR>
-" nnoremap <silent> <Space>f :LeaderfFile<CR>
-" nnoremap <silent> <Space>b :Buffers<CR>
+if has('win32')
+nnoremap <silent> <Space>f :LeaderfFile<CR>
+nnoremap <silent> <Space>b :LeaderfBuffer<CR>
+else
 nnoremap <silent> <space>f :<C-u>FzfPreviewGitFiles<CR>
 nnoremap <silent> <Space>b :<C-u>FzfPreviewAllBuffers<CR>
-" nnoremap <silent> <Space>l :BLines<CR>
+endif
 nnoremap <silent> <c-n> :LeaderfMru<cr>
+
 nnoremap <silent> <m-/> :LeaderfLine<CR>
 nnoremap <silent> <m-?> :LeaderfLineAll<CR>
-" nnoremap <silent> <Space>L :Lines<CR>
 
 
 noremap <m-*> :<C-U><C-R>=printf("Leaderf rg --bottom --stayOpen %s ", expand("<cword>"))<CR><CR>
@@ -126,7 +127,6 @@ let g:markdown_fenced_languages = [
 " Title: 其他窗口/菜单
 "==================================================================
 
-let g:todo_filepath='/media/Document/my.todo'
 " NOTE: 保证离开时保存并且删除buffer
 " autocmd VimEnter * exec "vsplit ". g:todo_filepath . "\| set ft=tasks \| wincmd w"
 " autocmd BufLeave *.todo silent! exec "w"
