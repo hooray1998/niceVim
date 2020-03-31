@@ -4,7 +4,7 @@ Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 
 let g:asynctasks_extra_config = [
-  \ '~/.local/config/niceVim/config/tasks.ini',
+  \  GetVimPath('config/') . 'tasks.ini',
   \ ]
 
 function! s:lf_task_source(...)

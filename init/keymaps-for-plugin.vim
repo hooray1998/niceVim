@@ -51,7 +51,9 @@ noremap <F4> :PreviewGoto tabe<cr>
 
 
 "激活补全
-inoremap <silent><expr> <c-n> coc#refresh()
+if !has('win32')
+    inoremap <silent><expr> <c-n> coc#refresh()
+endif
 function! GoDefinition()
     if index(['python', 'go', 'vim'], &ft) >= 0
         exec "call CocAction('jumpDefinition')"
@@ -226,7 +228,7 @@ function! QuietMode() abort
     endif
     let g:quiet_mode = !g:quiet_mode
 endfunction
-autocmd Filetype markdown nnoremap <silent> <buffer> <F12> :call QuietMode()<CR>
+nnoremap <silent> <buffer> <F12> :call QuietMode()<CR>
 
 " 不同模式下Ctrl-t对齐
 nnoremap <C-t> :<C-U><C-R>=printf("Tabularize /\|")<CR><CR>
@@ -260,14 +262,12 @@ tnoremap <silent> <m-=> <c-\><c-n>:call TerminalToggle()<cr>
 
 nnoremap <silent> <space>r :AsyncTask file-run<cr>
 nnoremap <silent> <space>d :DogeGenerate<cr>
-" autocmd FileType fugitive nnoremap <silent><buffer> dd dv
-" autocmd FileType fugitive nnoremap dd $gf:Gvdiffsplit
+
 function! GoDiff()
     silent! normal $gf
     silent! execute "Gvdiffsplit"
     silent! wincmd l
 endfunc
-" autocmd FileType fugitive  noremap <buffer> dd $gf:Gvdiffsplit
 autocmd FileType fugitive  noremap <silent><buffer> dd :call GoDiff()<CR>
 
 nnoremap ]a :ALENext<CR>

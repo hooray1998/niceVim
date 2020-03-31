@@ -1,3 +1,4 @@
+finish
 " 提供基于 TAGS 的定义预览，函数参数预览，quickfix 预览
 Plug 'skywind3000/vim-preview'
 " 提供 ctags/gtags 后台数据库自动更新功能

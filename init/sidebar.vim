@@ -1,7 +1,7 @@
 " 以后合并menu.vim
 Plug 'brglng/vim-sidebar-manager'
 Plug 'mbbill/undotree'
-" Plug 'liuchengxu/vista.vim'
+Plug 'liuchengxu/vista.vim'
 Plug 'skywind3000/vim-terminal-help'
 
 

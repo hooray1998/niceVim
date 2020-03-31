@@ -9,7 +9,8 @@ Plug 'iamcco/mathjax-support-for-mkdp', { 'for': 'markdown' }
 " 中文文档美化
 Plug 'hotoo/pangu.vim', { 'for': 'markdown' }
 " 专注模式
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'junegunn/goyo.vim'
+" Plug 'amix/vim-zenroom2'
 "autocmd! User goyo.vim echom 'Goyo is now loaded!'
 " 代码块执行
 " Plug 'gpanders/vim-medieval'

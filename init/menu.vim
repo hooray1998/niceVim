@@ -4,7 +4,7 @@ call quickui#menu#reset()
 " items containing tips, tips will display in the cmdline
 call quickui#menu#install('&File', [
             \ [ 'Auto&Format', 'Autoformat', '使用AutoFormat格式化代码' ],
-            \ [ '&Tab2Space', 'set ts=4|set expandtab|%retab!','Tab2Space & trailing' ],
+            \ [ '&Tab2Space', 'set ts=4|set expandtab|%retab!|%s/\s\+$//g','清理tab和行末空格' ],
             \ [ '&CRLF to LF', 'exec ":%s///gg"', '换行符转化' ],
             \ [ '-','' ],
             \ [ '&Save Session','SSave!', '保存会话' ],

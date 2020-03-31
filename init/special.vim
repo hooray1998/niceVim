@@ -42,7 +42,9 @@ Plug 'mhinz/vim-startify'
 
 autocmd User Startified nnoremap <buffer> <space>e :wincmd o\|exit<CR>
 autocmd User Startified nnoremap <buffer> l :call TodoToggle()<CR>
-autocmd User Startified nnoremap <buffer> - :LfCurrentDirectory<CR>
+if !has('win32')
+    autocmd User Startified nnoremap <buffer> - :LfCurrentDirectory<CR>
+endif
 autocmd User StartifyBufferOpened silent execute "wincmd o"
 
 let g:startify_disable_at_vimenter = 0
@@ -81,6 +83,19 @@ let g:startify_lists = [
 
 let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
 
+if has('win32')
+let g:startify_commands = [
+            \ {'g': ['git', 'silent! G']},
+            \ {'n': ['leaderf mru', 'LeaderfMru']},
+            \ {'f': ['leaderf file', 'LeaderfFile']},
+            \ {'v': ['vim config', 'e E:/gVim/niceVim/init.vim']},
+            \ {'m': ['basic map', 'e E:/gVim/niceVim/init/keymaps-for-basic.vim']},
+            \ {'p': ['plugin map', ':e E:/gVim/niceVim/init/keymaps-for-plugin.vim']},
+            \ ]
+" let g:startify_custom_header_quotes = [
+            " \ {-> systemlist('shuf -n8 E:/quote.list')}
+            " \ ]
+else
 let g:startify_commands = [
             \ {'g': ['git', 'silent! G']},
             \ {'n': ['leaderf mru', 'LeaderfMru']},
@@ -89,12 +104,12 @@ let g:startify_commands = [
             \ {'m': ['basic map', 'e ~/.vim/niceVim/init/keymaps-for-basic.vim']},
             \ {'p': ['plugin map', ':e ~/.vim/niceVim/init/keymaps-for-plugin.vim']},
             \ ]
-
-let g:startify_custom_header = 'startify#pad( startify#fortune#boxed())'
 let g:startify_custom_header_quotes = [
             \ {-> systemlist('shuf -n8 $HOME/quote.list')}
             \ ]
+endif
+
+let g:startify_custom_header = 'startify#pad( startify#fortune#boxed())'
 function! StartifyEntryFormat()
     return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction
-" autocmd TabNewEntered * Startify

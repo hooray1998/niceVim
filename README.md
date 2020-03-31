@@ -239,16 +239,9 @@ g|warn
 echo tell awk
 ```
 
-```python
-print("hello world")
-```
+### nvim-qt
 
-```lua
-print("hello world");
-```
-
-```perl
-print("hello world\n");
-print("hello world\n");
-print("hello world\n");
+**nvim_gui_shim.vim 最后加入该行,取消tabline**
+```vim
+call rpcnotify(0, 'Gui', 'Option', 'Tabline', 0)
 ```

@@ -1,3 +1,4 @@
+if !has('nvim') | finish | endif
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "==================================================================
@@ -13,7 +14,6 @@ let g:coc_global_extensions = [
             \ 'coc-tabnine' ,
             \ 'coc-snippets' ,
             \ 'coc-marketplace'  ,
-            \ 'coc-explorer' ,
             \ 'coc-ecdict' ,
             \ 'coc-xml' ,
             \ 'coc-python' ,
@@ -26,6 +26,7 @@ let g:coc_global_extensions = [
             \ 'coc-css',
             \ 'coc-cmake',
             \ 'coc-actions']
+            " \ 'coc-explorer' ,
 
 set updatetime=300
 set shortmess+=c
