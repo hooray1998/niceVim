@@ -19,7 +19,7 @@ set go=             " 不要图形按钮
 set showcmd         " 输入的命令显示出来，看的清楚些
 set novisualbell    " 不要闪烁(不明白)
 set laststatus=2    " 启动显示状态行(1),总是显示状态行(2)
-set relativenumber " 设置显示相对行号（其他行与当前行的距离）
+" set relativenumber " 设置显示相对行号（其他行与当前行的距离）
 
 " 在被分割的窗口间显示空白，便于阅读
 "set fillchars=vert:\ ,stl:\ ,stlnc:\
@@ -27,6 +27,10 @@ set relativenumber " 设置显示相对行号（其他行与当前行的距离�
 "----------------------------------------------------------------------
 " 基础设置
 "----------------------------------------------------------------------
+
+"禁用bell和闪烁
+set noeb vb t_vb=
+au GuiEnter * set t_vb=
 
 " 禁用 vi 兼容模式
 set nocompatible
@@ -223,3 +227,13 @@ set breakindent "打算后保持缩进"
 "==================================================================
 
 set switchbuf=newtab "新的tab打开预览项
+set inccommand=nosplit "替换时预览
+" wrap折行也能快速上下
+nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
+augroup every
+    autocmd!
+    au InsertEnter * set relativenumber
+    au InsertLeave * set norelativenumber
+augroup END
+

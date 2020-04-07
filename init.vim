@@ -53,6 +53,8 @@ LoadScript init/init-basic.vim
 LoadScript init/init-config.vim
 LoadScript init/init-style.vim
 
+let g:TasksMarkerDone=''
+let g:TasksMarkerCancelled=''
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
     LoadScript init/enhance-basic.vim
     LoadScript init/enhance-format.vim
@@ -76,21 +78,26 @@ LoadScript init/keymaps-for-basic.vim
 LoadScript init/keymaps-for-plugin.vim
 LoadScript init/menu.vim
 
-let scheme_arr=[
-            \ 'onedark',
-            \ 'OceanicNext',
-            \ 'molokai',
-            \ 'PaperColor',
-            \ 'codedark',
-            \ 'xcodedark',
-            \ 'gruvbox',
-            \ 'space_vim_theme',
-            \ 'atom-dark-256'
-            \ ]
-if has('nvim')
-    colorscheme onedark
-else
+function! ChangeTheme()
+    let scheme_arr=[
+                \ 'onedark',
+                \ 'OceanicNext',
+                \ 'molokai',
+                \ 'PaperColor',
+                \ 'codedark',
+                \ 'xcodedark',
+                \ 'gruvbox',
+                \ 'space_vim_theme',
+                \ 'atom-dark-256'
+                \ ]
     exec 'colorscheme ' . scheme_arr[rand()%len(scheme_arr)]
+endfunc
+command! -nargs=0 ChangeTheme call ChangeTheme()
+
+if has('nvim')
+    colorscheme gruvbox
+else
+    ChangeTheme
 endif
 "——————————————————————————————————————————————————————————————————
 " Title: 去掉Signify的背景色
