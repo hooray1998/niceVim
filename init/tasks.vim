@@ -58,7 +58,7 @@ let g:Lf_Extensions.task = {
 
 " 不生成到buffer列表中
 let g:asynctasks_term_listed = 0
-let g:asynctasks_term_cols = &columns * 2/5
+let g:asynctasks_term_cols = &columns * 1/2
 " 默认右侧terminal显示
-let g:asynctasks_term_pos = 'right'
-let g:asynctasks_term_focus = 0
+" let g:asynctasks_term_pos = 'right'
+" let g:asynctasks_term_focus = 1

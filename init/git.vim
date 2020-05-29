@@ -4,6 +4,7 @@ Plug 'mhinz/vim-signify'
 Plug 'chrisbra/vim-diff-enhanced'
 " Git 支持
 Plug 'tpope/vim-fugitive'
+Plug 'tommcdo/vim-fugitive-blame-ext'
 " Plug 'tpope/vim-fugitive'
 
 "==================================================================

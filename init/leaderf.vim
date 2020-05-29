@@ -13,7 +13,6 @@ let g:Lf_IgnoreCurrentBufferName = 1
 
 let g:Lf_RootMarkers = ['.git', '.svn', '.root']
 " 插入模式使用Ctrl-p预览即可, Ctrl-D/U 上下滚动
-let g:Lf_CommandMap = {'<C-Up>': ['<C-U>'], '<C-Down>': ['<C-D>']}
 let g:Lf_MruMaxFile = 50
 let g:Lf_PreviewResult = {
         \ 'File': 0,
@@ -60,7 +59,8 @@ let g:Lf_WildIgnore = {
 " MRU 文件忽略扩展名
 let g:Lf_MruMaxFiles = 100
 let g:Lf_MruFileExclude = ['*.so', '*.exe', '*.py[co]', '*.sw?', '~$*', '*.bak', '*.tmp', '*.dll', 'tags', '.tags', '*.todo']
-let g:Lf_StlColorscheme = 'powerline'
+" let g:Lf_StlColorscheme = 'gruvbox_masterial'
+" let g:Lf_PopupColorscheme = 'gruvbox_masterial'
 " ui 定制
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
@@ -76,4 +76,5 @@ let g:Lf_NormalMap = {
             \ "BufTag": [["<ESC>", ':exec g:Lf_py "bufTagExplManager.quit()"<cr>']],
             \ "Function": [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<cr>']],
             \ }
+" let g:Lf_CommandMap = {'<C-Up>': ['<C-U>'], '<C-Down>': ['<C-D>']}
 

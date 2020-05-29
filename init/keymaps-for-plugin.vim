@@ -12,6 +12,8 @@ else
 nnoremap <silent> <space>f :<C-u>FzfPreviewGitFiles<CR>
 nnoremap <silent> <Space>b :<C-u>FzfPreviewAllBuffers<CR>
 endif
+cnoremap <silent> h<Space> LeaderfHelp<CR>
+" cnoremap <silent> : LeaderfCommand<CR>
 nnoremap <silent> <c-n> :LeaderfMru<cr>
 
 nnoremap <silent> <m-/> :LeaderfLine<CR>
@@ -130,13 +132,12 @@ let g:markdown_fenced_languages = [
 "==================================================================
 
 " NOTE: 保证离开时保存并且删除buffer
-" autocmd VimEnter * exec "vsplit ". g:todo_filepath . "\| set ft=tasks \| wincmd w"
-" autocmd BufLeave *.todo silent! exec "w"
-autocmd WinLeave *.todo silent! exec "w\|bwipeout " . g:todo_filepath
+autocmd WinLeave *.todo silent! exec "update"
+autocmd WinEnter *.todo silent! exec "e %"
 function! TodoToggle()
     if bufexists(g:todo_filepath)
 		if bufname('%') == g:todo_filepath
-            silent exec "wq"
+            silent! exec "exit"
         endif
         silent! exec "bwipeout " . g:todo_filepath
     else

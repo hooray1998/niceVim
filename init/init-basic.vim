@@ -226,6 +226,7 @@ set breakindent "打算后保持缩进"
 " Title: 其他
 "==================================================================
 
+set cursorline
 set switchbuf=newtab "新的tab打开预览项
 set inccommand=nosplit "替换时预览
 " wrap折行也能快速上下

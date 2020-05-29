@@ -93,8 +93,6 @@ noremap <silent><space>0 10gt<cr>
 
 noremap <silent> [j :bp<cr>
 noremap <silent> ]j :bn<cr>
-noremap <tab>, gT
-noremap <tab>. gt
 noremap <tab>c :tabnew \| Startify<cr>
 noremap <tab>q :tabclose<cr>
 " 进入新的buffer之后，为该buffer建立一个tab
@@ -173,12 +171,12 @@ cnoremap <m-l> <c-right>
 " 传统的 CTRL+hjkl 移动窗口不适用于 vim 8.1 的终端模式，CTRL+hjkl 在
 " bash/zsh 及带文本界面的程序中都是重要键位需要保留，不能 tnoremap 的
 "----------------------------------------------------------------------
-noremap <m-H> <c-w>h
-noremap <m-L> <c-w>l
+noremap <m-H> gT
+noremap <m-L> gt
 noremap <m-J> <c-w>j
 noremap <m-K> <c-w>k
-inoremap <m-H> <esc><c-w>h
-inoremap <m-L> <esc><c-w>l
+inoremap <m-H> <esc>gT
+inoremap <m-L> <esc>gt
 inoremap <m-J> <esc><c-w>j
 inoremap <m-K> <esc><c-w>k
 
@@ -221,7 +219,7 @@ nnoremap <Space>W :w !sudo tee % > /dev/null <CR>
 nmap L $
 nmap H 0^
 map L $
-map H 0
+map H 0^
 vnoremap L $h
 vnoremap H 0^
 "映射显示当前文件目录的快捷键"
@@ -248,3 +246,4 @@ endfunction
 cmap w!! w !sudo tee % > /dev/null <CR>
 
 nnoremap <C-2> @@
+nnoremap <space>p "+p

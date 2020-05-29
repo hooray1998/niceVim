@@ -5,7 +5,7 @@
 
 " 防止重复加载
 if get(s:, 'loaded', 0) != 0
-    finish
+    " finish
 else
     let s:loaded = 1
 endif
@@ -56,6 +56,8 @@ LoadScript init/init-style.vim
 let g:TasksMarkerDone=''
 let g:TasksMarkerCancelled=''
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
+    " Plug 'ap/vim-css-color'
+    " Plug 'voldikss/vim-floaterm'
     LoadScript init/enhance-basic.vim
     LoadScript init/enhance-format.vim
     LoadScript init/enhance-search.vim
@@ -68,6 +70,9 @@ call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
     LoadScript init/gutentags.vim
     LoadScript init/git.vim
     LoadScript init/sidebar.vim
+    Plug 'justinmk/vim-sneak'
+    Plug 'posva/vim-vue'
+    " Plug 'vim-latex/vim-latex' "ctrl-j有问题
     LoadScript init/special.vim
     LoadScript init/leaderf.vim
     LoadScript init/gist.vim

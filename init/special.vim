@@ -1,3 +1,4 @@
+Plug 'junegunn/vim-peekaboo'
 Plug 'metakirby5/codi.vim'
 Plug 'dbridges/vim-markdown-runner'
 " Plug 'gpanders/vim-medieval'
@@ -76,7 +77,6 @@ let g:startify_custom_footer =
 
 let g:startify_lists = [
             \ { 'type': 'files',     'header': ['   MRU']            },
-            \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
             \ { 'type': 'sessions',  'header': ['   Sessions']       },
             \ { 'type': 'commands',  'header': ['   Commands']       },
             \ ]
