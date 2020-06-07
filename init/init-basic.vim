@@ -28,7 +28,7 @@ set laststatus=2    " 启动显示状态行(1),总是显示状态行(2)
 " 基础设置
 "----------------------------------------------------------------------
 
-"禁用bell
+"禁用bell和闪烁
 set noeb vb t_vb=
 au GuiEnter * set t_vb=
 
@@ -227,3 +227,13 @@ set breakindent "打算后保持缩进"
 "==================================================================
 
 set switchbuf=newtab "新的tab打开预览项
+set inccommand=nosplit "替换时预览
+" wrap折行也能快速上下
+nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
+augroup every
+    autocmd!
+    au InsertEnter * set relativenumber
+    au InsertLeave * set norelativenumber
+augroup END
+

@@ -95,7 +95,7 @@ endfunc
 command! -nargs=0 ChangeTheme call ChangeTheme()
 
 if has('nvim')
-    colorscheme onedark
+    colorscheme gruvbox
 else
     ChangeTheme
 endif

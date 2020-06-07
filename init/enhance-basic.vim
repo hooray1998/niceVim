@@ -7,6 +7,8 @@
     Plug 'psliwka/vim-smoothie'
     Plug 'tpope/vim-eunuch'
 
+    Plug 'Yggdroot/indentLine'
+
     if has('win32')
         " 文件浏览器，代替 netrw
         Plug 'justinmk/vim-dirvish'

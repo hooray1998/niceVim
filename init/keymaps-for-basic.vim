@@ -15,6 +15,26 @@
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
 
+
+autocmd BufNewFile *.cpp,*.c,*.py,*.sh,*.md exec ":call Settitle()"
+function Settitle()
+    if &filetype == 'sh'
+        call setline(1,"\#!/usr/bin/env bash")
+    elseif &filetype == 'python'
+        call setline(1,"# -*- coding:utf-8 -*-")
+    elseif &filetype == 'markdown'
+        call setline(1, "# ".expand("%:t:r"))
+    elseif &filetype == 'cpp'
+        call setline(1, "\#include<bits/stdc++.h>")
+        call setline(2, "using namespace std;")
+    elseif &filetype == 'c'
+        call setline(1, "#include<stdio.h>")
+    else
+        call setline(1, "filetype error")
+    endif
+    call append(line("$"), "")
+    . normal G
+endfunc
 "----------------------------------------------------------------------
 " INSERT 模式下使用 EMACS 键位
 "----------------------------------------------------------------------
@@ -226,3 +246,5 @@ function! s:VSetSearch()
 endfunction
 
 cmap w!! w !sudo tee % > /dev/null <CR>
+
+nnoremap <C-2> @@
