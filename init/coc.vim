@@ -7,18 +7,14 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 let g:coc_global_extensions = [
             \ 'coc-zi' ,
-            \ 'coc-yank' ,
             \ 'coc-vimlsp' ,
             \ 'coc-translator' ,
             \ 'coc-todolist' ,
-            \ 'coc-tabnine' ,
             \ 'coc-snippets' ,
             \ 'coc-marketplace'  ,
             \ 'coc-ecdict' ,
             \ 'coc-xml' ,
             \ 'coc-python' ,
-            \ 'coc-markmap' ,
-            \ 'coc-markdownlint' ,
             \ 'coc-lua' ,
             \ 'coc-json' ,
             \ 'coc-java' ,
@@ -26,7 +22,6 @@ let g:coc_global_extensions = [
             \ 'coc-css',
             \ 'coc-cmake',
             \ 'coc-actions']
-            " \ 'coc-explorer' ,
 
 set updatetime=300
 set shortmess+=c
@@ -50,3 +45,10 @@ augroup mygroup
   " Update signature help on jump placeholder.
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
+
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"

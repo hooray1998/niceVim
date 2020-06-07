@@ -13,11 +13,7 @@
         " 文件浏览器，代替 netrw
         Plug 'justinmk/vim-dirvish'
     else
-        Plug 'rbgrouleff/bclose.vim'
-        Plug 'ptzz/lf.vim'
-        nmap - :tabedit %\| LfCurrentFile<CR>
-        let g:NERDTreeHijackNetrw = 0
-        let g:lf_replace_netrw = 1
+        nmap <silent> - :Leaderf filer --popup <C-R>=expand("%:p:h")<CR><CR>
     endif
 
 

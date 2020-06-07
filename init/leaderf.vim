@@ -1,4 +1,5 @@
 Plug 'Yggdroot/LeaderF'
+Plug 'tamago324/LeaderF-filer'
 
 "==================================================================
 " Title: Leaderf文件查找

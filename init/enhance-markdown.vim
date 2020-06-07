@@ -86,7 +86,7 @@ function! RunCode()
     elseif match(@a,"perl")>-1
         .normal VNkoj:w !perl
     elseif match(@a,"javascript")>-1  || match(@a,"JavaScript")>-1
-        .normal VNkoj:w !nodejs
+        .normal VNkoj:w !node
     endif
     .normal `b:delmarks b
 endfunc

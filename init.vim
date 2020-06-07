@@ -56,8 +56,7 @@ LoadScript init/init-style.vim
 let g:TasksMarkerDone=''
 let g:TasksMarkerCancelled=''
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
-    " Plug 'ap/vim-css-color'
-    " Plug 'voldikss/vim-floaterm'
+    Plug 'voldikss/vim-floaterm'
     LoadScript init/enhance-basic.vim
     LoadScript init/enhance-format.vim
     LoadScript init/enhance-search.vim
@@ -71,12 +70,14 @@ call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
     LoadScript init/git.vim
     LoadScript init/sidebar.vim
     Plug 'justinmk/vim-sneak'
-    Plug 'posva/vim-vue'
     " Plug 'vim-latex/vim-latex' "ctrl-j有问题
     LoadScript init/special.vim
     LoadScript init/leaderf.vim
     LoadScript init/gist.vim
     LoadScript init/tasks.vim
+    LoadScript init/web.vim
+    Plug 'liuchengxu/vim-which-key'
+    Plug 'dstein64/vim-startuptime', {'on':'StartupTime'}
 call plug#end()
 
 LoadScript init/keymaps-for-basic.vim
