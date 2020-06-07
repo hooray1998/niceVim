@@ -13,7 +13,6 @@ let g:Lf_UseVersionControlTool = 0
 let g:Lf_IgnoreCurrentBufferName = 1
 
 let g:Lf_RootMarkers = ['.git', '.svn', '.root']
-" 插入模式使用Ctrl-p预览即可, Ctrl-D/U 上下滚动
 let g:Lf_MruMaxFile = 50
 let g:Lf_PreviewResult = {
         \ 'File': 0,
