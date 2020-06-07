@@ -2,8 +2,6 @@
 " 表格对齐，使用命令 Tabularize
 Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-" 自动预览
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 'markdown' }
 " 数学公式支持
 Plug 'iamcco/mathjax-support-for-mkdp', { 'for': 'markdown' }
 " 中文文档美化
@@ -15,11 +13,11 @@ Plug 'junegunn/goyo.vim'
 " 代码块执行
 " Plug 'gpanders/vim-medieval'
 
-" Plug 'skywind3000/vim-auto-popmenu'
-" Plug 'skywind3000/vim-dict'
+Plug 'skywind3000/vim-auto-popmenu'
+Plug 'skywind3000/vim-dict'
 
 " enable this plugin for filetypes, '*' for all files.
-let g:apc_enable_ft = {'text':1, 'markdown':1}
+let g:apc_enable_ft = {'*':1}
 
 " source for dictionary, current or other loaded buffers, see ':help cpt'
 set cpt=.,k,w,b
