@@ -1,7 +1,7 @@
 Plug 'ap/vim-css-color'
 Plug 'posva/vim-vue'
 Plug 'mattn/emmet-vim'
-autocmd FileType html,htmldjango inoremap <silent> <buffer> <c-\>     <ESC>:call emmet#expandAbbr(3,"")<CR>i
+autocmd FileType vue,html,htmldjango,xml inoremap <silent> <buffer> <c-\>     <ESC>:call emmet#expandAbbr(3,"")<CR>i
 
 " 少部分替换
 nnoremap <silent> gn *Ncgn
@@ -15,3 +15,5 @@ function! ExecuteMacroOverVisualRange()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 
+" 单独设置缩进为2
+autocmd FileType vue,javascript,css setlocal et sta sw=2 sts=2
